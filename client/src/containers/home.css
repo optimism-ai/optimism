@@ -1,0 +1,27 @@
+.Home .lander {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.Home .lander h1 {
+    font-weight: 600;
+}
+
+.Home .lander p {    
+    color: black;
+}
+
+.Home .lander .aboutUs {
+    margin-left: 12%;
+    margin-right: 12%;
+}
+
+.Home .lander .howItWorks {
+    margin-top: 80px;
+}
+
+.Home .lander .howBody {
+    max-width: 100%;
+    background-color: black;
+    margin: 10px 0px 10px 0px;
+}
