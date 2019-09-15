@@ -4,6 +4,8 @@
   padding-left: 0;
   padding-right: 0;
   background-image: url(sunsetbackground.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .App .navbar-brand {

@@ -17,11 +17,11 @@
 }
 
 .Home .lander .howItWorks {
-    margin-top: 80px;
+    margin: 80px 0px 20px 0px;
+    background-color: #6ea4bf;
 }
 
-.Home .lander .howBody {
+.Home .lander .howPic {
     max-width: 100%;
-    background-color: black;
-    margin: 10px 0px 10px 0px;
+    margin: 20px 0px 20px 0px;
 }
