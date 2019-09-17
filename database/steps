@@ -1,0 +1,3 @@
+docker pull mongo
+mkdir -p ~/docker/volumnes/mongo
+docker run --rm --name mongo-optimism --env-file ./database/env.list -d -p 27017:27017 -v $HOME/docker/volumes/mongo:/data/db -v ./database/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js mongo
