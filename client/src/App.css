@@ -22,17 +22,6 @@
   color: black;
 }
 
-.navbar-default .navbar-nav>li>a {
-  color: black;
-}
-.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
-  color: black;
-  background-color: orange;
-}
-.navbar-default .navbar-nav>li>a:hover {
-  color: orange;
-}
-
 .App-header {
   background-color: #6ea4bf;
   min-height: 100vh;
@@ -44,8 +33,8 @@
   color: black;
 }
 
-.App #navLogo {
-  max-width: 115px;
+#navLogo {
+  max-width: 120px;
 }
 
 .App-link {

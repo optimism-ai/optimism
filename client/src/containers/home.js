@@ -40,10 +40,6 @@ export default class Home extends Component {
             </p>
           </div>
         </div>
-
-        <footer>
-          Copyright 2019
-        </footer>
       </div>
     );
   }
