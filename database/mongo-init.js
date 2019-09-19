@@ -1,18 +1,29 @@
 
-db.createUser(
-        {
-            user: "optimismUser",
-            pwd: "optimism",
-            roles: [
-                {
-                    role: "readWrite",
-                    db: "OptimismDB"
+//
+// CREATE COLLECTIONS
+//
+db.createCollection(
+    "Mood",
+    {
+        autoIndexId: true,
+        validator: { 
+            $jsonSchema: {
+                bsonType: "object",
+                required: [ "name", "level" ],
+                properties: {
+                    name: {
+                        bsonType: "string",
+                        description: "name of mood"
+                    },
+                    level: {
+                        bsonType: "int",
+                        description: "how the mood impacts aspects"
+                    }
                 }
-            ]
+            }
         }
-);
-
-use OptimismDB
+    }
+)
 
 db.createCollection(
     "Aspect",
@@ -35,7 +46,7 @@ db.createCollection(
             }
         }
     }
-);
+)
 
 db.createCollection(
     "Factor",
@@ -53,7 +64,7 @@ db.createCollection(
                     affect: {
                         bsonType: "array",
                         items: {
-                            bsonType: 'int'
+                            bsonType: "objectId"
                         },
                         description: "id's of the aspects that the factor influences"
                     }
@@ -99,13 +110,13 @@ db.createCollection(
                                     description: "date the entry was submitted"
                                 },
                                 moodID: {
-                                    bsonType: "int",
+                                    bsonType: "objectId",
                                     description: "mood id that was assocaited with the entry"
                                 },
                                 factor: {
                                     bsonType: "array",
                                     items: {
-                                        bsonType: "int"
+                                        bsonType: "objectId"
                                     },
                                     description: "factor id's that were associated with the entry"
                                 }
@@ -119,7 +130,7 @@ db.createCollection(
                             required: [ "id", "count", "score"],
                             properties: {
                                 id: {
-                                    bsonType: "int",
+                                    bsonType: "objectId",
                                     description: "id of the associated aspect"
                                 },
                                 count: {
@@ -149,7 +160,7 @@ db.createCollection(
                 required: [ "userID", "aspect" ],
                 properties: {
                     userID: {
-                        bsonType: "int",
+                        bsonType: "objectId",
                         description: "ID of associated user"
                     },
                     aspect: {
@@ -169,7 +180,7 @@ db.createCollection(
                                 factorID: {
                                     bsonType: "array",
                                     items: {
-                                        bsonType: "int"
+                                        bsonType: "objectId"
                                     },
                                     description: "factor ID's associated with the aspect update"
                                 }
@@ -181,4 +192,65 @@ db.createCollection(
         }
     }
 );
+
+
+//
+// SAMPLE DATA
+//
+db.Mood.insertOne(
+    {
+        name: "mood name",
+        level: NumberInt(0)
+    }
+)
+
+db.Aspect.insertOne(
+    {
+        name: "aspect name",
+        description: "aspect description"
+    }
+)
+
+db.Factor.insertOne(
+    {
+        description: "factor description",
+        affect: [ db.Aspect.find()[0]["_id"] ]
+    }
+)
+
+db.User.insertOne(
+    {
+        firstName: "bob",
+        lastName: "tran",
+        password: "password",
+        email: "bobtran@bobtran.com",
+        entry: [
+            {
+                dateAdded: new Date(),
+                moodID: db.Mood.find()[0]["_id"],
+                factor: [ db.Factor.find()[0]["_id"] ]
+            }
+        ],
+        aspect: [
+            {
+                id: db.Aspect.find()[0]["_id"],
+                count: NumberInt(1),
+                score: 0
+            }
+        ]
+    }
+)
+
+db.AspectLog.insertOne(
+    {
+        userID: db.User.find()[0]["_id"],
+        aspect: [
+            {
+                score: 0,
+                dateAdded: new Date(),
+                factorID: [ db.User.find()[0]["_id"] ]
+            }
+        ]
+    }
+)
 
