@@ -1,19 +1,22 @@
-.Home .lander {
-    padding: 20px 0;
+@import url('https://fonts.googleapis.com/css?family=Comfortaa&display=swap');
+
+.Home {
     text-align: center;
+    font-family: 'Comfortaa';
 }
 
 .Home .lander h1 {
-    font-weight: 600;
-}
-
-.Home .lander p {    
-    color: black;
+    font-size: 100px;
 }
 
 .Home .lander .aboutUs {
-    margin-left: 12%;
-    margin-right: 12%;
+    margin-left: 15%;
+    margin-right: 15%;
+    background-color: rgb(255, 202, 44);
+    border-radius: 15px;
+    color: rgb(255, 255, 255);
+    padding: 15px;
+    font-weight: bold;
 }
 
 .Home .lander .howItWorks {

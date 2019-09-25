@@ -7,9 +7,12 @@ export default class Home extends Component {
   render() {
     return (
       <div className="Home">
+
         <img src={WebLogo} alt="Optimism Logo"></img>
-        <h3>Be Happy, Stay Happy</h3>
+        <h1>Be Happy, Stay Happy</h1>
+
         <div className="lander">
+
           <div className="aboutUs">
             <p>
               Optimism will help you log your daily mood and activities. We intend to improve and maintain
@@ -17,7 +20,7 @@ export default class Home extends Component {
               incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
               ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
               in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-              non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+              non proident, sunt in culpa qui officia
             </p>
           </div>
           <div className="howItWorks">
