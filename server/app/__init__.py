@@ -1,5 +1,7 @@
 
-from app.storage.mongodb import MongoDB
+from .storage import MongoDB
+from .services import Lister
 
-REPO = MongoDB()
+repo = MongoDB()
+lister = Lister(repo)
 
