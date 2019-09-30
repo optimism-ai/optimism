@@ -1,4 +1,4 @@
-FLASK_APP=app/handler.py
+FLASK_APP=app/router.py
 FLASK_ENV=development
 OPTIMISM_DB_HOST="localhost"
 OPTIMISM_DB_PORT="27017"
