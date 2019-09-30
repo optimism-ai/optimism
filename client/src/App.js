@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import WebLogo from "./containers/hireslogo.png";
+import WebLogo from "./containers/images/banner_dark.png";
 import Routes from "./Routes";
 
 class App extends Component {

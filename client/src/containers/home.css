@@ -9,7 +9,11 @@
     font-size: 100px;
 }
 
-.Home .lander .aboutUs {
+.Home .banner {
+    max-width: 50%;
+}
+
+.Home .lander .description {
     margin-left: 15%;
     margin-right: 15%;
     background-color: rgb(255, 202, 44);
@@ -19,12 +23,12 @@
     font-weight: bold;
 }
 
-.Home .lander .howItWorks {
+.Home .lander .demo {
     margin: 80px 0px 20px 0px;
     background-color: #6ea4bf;
 }
 
-.Home .lander .howPic {
+.Home .lander .demo_pic {
     max-width: 100%;
     margin: 20px 0px 20px 0px;
 }

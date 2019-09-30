@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import "./home.css";
-import WebLogo from "./hireslogo.png";
-import HowArt from "./how.png";
+import WebLogo from "./images/banner_light.png";
+import HowArt from "./images/how.png";
 
 export default class Home extends Component {
   render() {
     return (
       <div className="Home">
 
-        <img src={WebLogo} alt="Optimism Logo"></img>
+        <img className="banner" src={WebLogo} alt="Optimism Logo"></img>
+
         <h1>Be Happy, Stay Happy</h1>
 
         <div className="lander">
 
-          <div className="aboutUs">
+          <div className="description">
             <p>
               Optimism will help you log your daily mood and activities. We intend to improve and maintain
               your happiness. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -23,11 +24,11 @@ export default class Home extends Component {
               non proident, sunt in culpa qui officia
             </p>
           </div>
-          <div className="howItWorks">
+          <div className="demo">
             <h2 className="howTitle">
               How It Works!
             </h2>
-            <div className="howPic">
+            <div className="demo_pic">
               <img className="howClipArt" src={HowArt} alt="How it Works"></img>
             </div>
             <p className="howBody">
