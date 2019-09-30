@@ -5,12 +5,9 @@
     font-family: 'Comfortaa';
 }
 
-.Home .lander h1 {
-    font-size: 100px;
-}
-
 .Home .banner {
     max-width: 50%;
+    padding: 20px;
 }
 
 .Home .lander .description {

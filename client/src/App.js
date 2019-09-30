@@ -40,7 +40,7 @@ class App extends Component {
                 </Navbar.Brand>
               </Navbar.Header>
               <Navbar.Collapse>
-                <Nav pullRight>
+                <Nav pullRight className="Text">
                   <NavItem href="/homepage">Test Home</NavItem>
                   <NavItem href="/signup">Signup</NavItem>
                   <NavItem href="/login">Login</NavItem>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./home.css";
-import WebLogo from "./images/banner_light.png";
+import WebLogo from "./images/banner_dark.png";
 import HowArt from "./images/how.png";
 
 export default class Home extends Component {
@@ -10,11 +10,11 @@ export default class Home extends Component {
 
         <img className="banner" src={WebLogo} alt="Optimism Logo"></img>
 
-        <h1>Be Happy, Stay Happy</h1>
-
         <div className="lander">
 
           <div className="description">
+            
+            <h1 className="quote">Be Happy, Stay Happy</h1>
             <p>
               Optimism will help you log your daily mood and activities. We intend to improve and maintain
               your happiness. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -24,6 +24,7 @@ export default class Home extends Component {
               non proident, sunt in culpa qui officia
             </p>
           </div>
+
           <div className="demo">
             <h2 className="howTitle">
               How It Works!

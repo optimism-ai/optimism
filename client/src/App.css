@@ -3,14 +3,11 @@
   width: 100% !important;
   padding-left: 0;
   padding-right: 0;
-  background-image: url(sunsetbackground.jpg);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
 }
 
 .App .navbar-brand {
   font-weight: bold;
-  color: white;
+  color: #000000;
 }
 
 .App .navbar {
@@ -35,9 +32,14 @@
 
 #navLogo {
   max-width: 120px;
+  margin: 4px;
 }
 
 .App-link {
   color: #61dafb;
+}
+
+.App .Text {
+  color: aliceblue;
 }
 
