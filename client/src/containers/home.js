@@ -13,7 +13,7 @@ export default class Home extends Component {
         <div className="lander">
 
           <div className="description">
-            
+
             <h1 className="quote">Be Happy, Stay Happy</h1>
             <p>
               Optimism will help you log your daily mood and activities. We intend to improve and maintain

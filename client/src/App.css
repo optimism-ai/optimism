@@ -1,45 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa&display=swap');
+
 .App {
+  font-family: 'Comfortaa';
   text-align: center;
   width: 100% !important;
   padding-left: 0;
   padding-right: 0;
+  background-color: #ffffff;
+}
+
+.App .navbar {
+  background-color: white;
 }
 
 .App .navbar-brand {
   font-weight: bold;
-  color: #000000;
-}
-
-.App .navbar {
-  background-color: #6ea4bf;
-  margin-bottom: 0;
-}
-
-.App .NavItem {
-  color: black;
-}
-
-.App-header {
-  background-color: #6ea4bf;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding-top: 8px;
   color: black;
 }
 
 #navLogo {
   max-width: 120px;
-  margin: 4px;
 }
 
-.App-link {
-  color: #61dafb;
+.App .navbar-header {
+  background-color: #ffffff;
 }
 
-.App .Text {
-  color: aliceblue;
+.App NavItem {
+  color: black;
 }
-
