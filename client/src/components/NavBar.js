@@ -15,8 +15,10 @@ const NavBar = () => {
         <Navbar fluid collapseOnSelect>
             <Navbar.Header>
                 <Navbar.Brand>
+                    {!isAuthenticated && <Link to="/"><img id="navLogo" src={WebLogo} alt="Optimism Logo"></img></Link>}
+                    {isAuthenticated && <Link to="/dashboard"><img id="navLogo" src={WebLogo} alt="Optimism Logo"></img></Link>}
                   <Link to="/">
-                    <img id="navLogo" src={WebLogo} alt="Optimism Logo"></img>
+                    
                   </Link>
                 </Navbar.Brand>
             </Navbar.Header>
@@ -32,9 +34,9 @@ const NavBar = () => {
                         </NavItem>
                     )}
 
-                    {isAuthenticated && <NavItem onClick={() => logout()}>Log out</NavItem>}
-                    {isAuthenticated && <NavItem><Link to="/">Home</Link></NavItem>}
+                    {isAuthenticated && <NavItem><Link to="/dashboard">Home</Link></NavItem>}
                     {isAuthenticated && <NavItem><Link to="/profile">Profile</Link></NavItem>}
+                    {isAuthenticated && <NavItem onClick={() => logout()}>Log out</NavItem>}
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

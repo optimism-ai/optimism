@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Profile from "./components/Profile";
 import Home from "./components/Home";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Switch>
                 <Route path="/" exact component={Home}/>
                 <Route path="/profile" component={Profile} />
+                <Route path="/dashboard" component={Dashboard} />
             </Switch>
         </div>
       </BrowserRouter>
