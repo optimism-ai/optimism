@@ -112,7 +112,7 @@ def requires_auth(f):
                         "description": "Unable to find appropriate key"}, 401)
     return decorated
 
-# Controllers API
+# This doesn't need authentication
 @APP.route("/api/public/list/moods")
 @cross_origin(headers=["Content-Type", "Authorization"])
 def get_moods():
@@ -120,15 +120,13 @@ def get_moods():
     json_moods = dumps([mood.__dict__ for mood in moods])
     return json_moods
 
-
+# This needs authentication
 @APP.route("/api/private")
 @cross_origin(headers=["Content-Type", "Authorization"])
-@cross_origin(headers=["Access-Control-Allow-Origin", "http://localhost:3000"])
 @requires_auth
 def private():
-    """A valid access token is required to access this route
-    """
     response = "Hello from a private endpoint! You need to be authenticated to see this."
     return jsonify(message=response)
 
 APP.run()
+
