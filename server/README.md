@@ -25,8 +25,9 @@ pip install -r requirements.txt
 Optimism utilizes [Auth0](http://auth0.com) to authenticate users. Visit the [Auth0](http://auth0.com) website to [create an Auth0 API](https://auth0.com/docs/apis) to obtain an API identifier. Then export them as environment variables as detailed below.
 
 ```bash
-export OPTIMISM_AUTH0_DOMAIN=DOMAIN                                # Replace with your auth0 domain
-export OPTIMISM_API_IDENTIFIER=API_IDENTIFIER                      # Replace with your auth0 API identifier
+export OPTIMISM_AUTH0_DOMAIN="{YOUR AUTH0 DOMAIN}"
+export OPTIMISM_API_IDENTIFIER="{YOUR AUTH0 API IDENTIFIER}"
+```
 
 ### 4. Run the application
 
