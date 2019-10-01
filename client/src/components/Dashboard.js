@@ -1,15 +1,40 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "../react-auth0-wrapper";
 import "./dashboard.css";
 
 const Dashboard = () => {
-  const { isAuthenticated, loading } = useAuth0();
+    const [showResult, setShowResult] = useState(false);
+    const [apiMessage, setApiMessage] = useState("");
+
+    const { isAuthenticated, loading, getTokenSilently } = useAuth0();
     if (loading) {
         return (
             <div></div>
         );
     }
+
+    const callApi = async () => {
+        try {
+            const token = await getTokenSilently();
+
+            const response = await fetch("/api/private/list/moods", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const responseData = await response.json();
+
+            setShowResult(true);
+            setApiMessage(responseData);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    callApi()
+
     return (
       <div>
       {isAuthenticated && (
@@ -40,6 +65,7 @@ const Dashboard = () => {
             </div>
         </div>
       )}
+        {showResult && <code>{JSON.stringify(apiMessage, null, 2)}</code>}
       </div>
     );
 }

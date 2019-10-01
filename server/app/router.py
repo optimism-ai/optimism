@@ -112,21 +112,13 @@ def requires_auth(f):
                         "description": "Unable to find appropriate key"}, 401)
     return decorated
 
-# This doesn't need authentication
-@APP.route("/api/public/list/moods")
+@APP.route("/api/private/list/moods")
 @cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def get_moods():
     moods = lister.moods()
     json_moods = dumps([mood.__dict__ for mood in moods])
     return json_moods
-
-# This needs authentication
-@APP.route("/api/private")
-@cross_origin(headers=["Content-Type", "Authorization"])
-@requires_auth
-def private():
-    response = "Hello from a private endpoint! You need to be authenticated to see this."
-    return jsonify(message=response)
 
 APP.run()
 

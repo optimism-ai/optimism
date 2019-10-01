@@ -24,6 +24,7 @@ ReactDOM.render(
     domain={config.domain}
     client_id={config.clientId}
     redirect_uri={config.callbackUrl}
+    audience={config.audience}
     onRedirectCallback={onRedirectCallback}
 >
     <App />
