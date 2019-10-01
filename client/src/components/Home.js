@@ -1,6 +1,4 @@
 import React from "react";
-import { useAuth0 } from "../react-auth0-wrapper";
-
 import "./home.css";
 import WebLogo from "./hireslogo.png";
 import HowArt from "./how.png";

@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import Profile from "./components/Profile";
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -16,8 +17,8 @@ function App() {
             </div>
             <Switch>
                 <Route path="/" exact component={Home}/>
-                <Route path="/profile" component={Profile} />
-                <Route path="/dashboard" component={Dashboard} />
+                <PrivateRoute path="/profile" component={Profile} />
+                <PrivateRoute path="/dashboard" component={Dashboard} />
             </Switch>
         </div>
       </BrowserRouter>
