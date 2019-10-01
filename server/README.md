@@ -22,14 +22,10 @@ pip install -r requirements.txt
 ```
 
 ### 3. Export environment varibles
-Optimism utilizes [Auth0](http://auth0.com) to authenticate users. Visit the [Auth0](http://auth0.com) website to create a free account and obtain a client id, domain, and client secret id. Additionally, [create an Auth0 API](https://auth0.com/docs/apis) to obtain an API identifier. Then export them as environment variables as detailed below.
+Optimism utilizes [Auth0](http://auth0.com) to authenticate users. Visit the [Auth0](http://auth0.com) website to [create an Auth0 API](https://auth0.com/docs/apis) to obtain an API identifier. Then export them as environment variables as detailed below.
 
 ```bash
-export OPTIMISM_AUTH0_CLIENT_ID=CLIENT_ID                          # Replace with your auth0 client ID
 export OPTIMISM_AUTH0_DOMAIN=DOMAIN                                # Replace with your auth0 domain
-export OPTIMISM_AUTH0_CLIENT_SECRET=CLIENT_SECRET                  # Replace with your auth0 secret client ID
-export OPTIMISM_AUTH0_CALLBACK_URL=http://localhost:3000/callback
-export OPTIMISM_AUTH0_AUDIENCE=
 export OPTIMISM_API_IDENTIFIER=API_IDENTIFIER                      # Replace with your auth0 API identifier
 
 ### 4. Run the application
