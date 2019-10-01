@@ -1,0 +1,18 @@
+
+.container {
+    display: flex;
+    justify-content: space-evenly;
+    margin-left: 0;
+}
+
+.rhs {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+}
+
+.lhs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

@@ -1,56 +1,26 @@
-import React, {Component} from 'react';
-import './App.css';
-import { Navbar, Nav, NavItem } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import WebLogo from "./containers/hireslogo.png";
-import Routes from "./Routes";
+// src/App.js
 
-class App extends Component {
-  constructor() {
-      super();
-      let initial = null;
-      this.state = {
-        userID: initial
-      };
-    }
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Profile from "./components/Profile";
+import Home from "./components/Home";
 
-    logUserIn = e => {
-      let testID = 1;
-      console.log("ID = 1");
-      this.setState({
-        userID: testID
-      });
-    }
+function App() {
+  return (
+      <BrowserRouter>
+        <div>
+            <div>
+                <NavBar />
+            </div>
+            <Switch>
+                <Route path="/" exact component={Home}/>
+                <Route path="/profile" component={Profile} />
+            </Switch>
+        </div>
+      </BrowserRouter>
+  );
+}
 
-  logUserOut = (e) => {
-      e.preventDefault()
-      console.log("ID = null");
-      this.setState({userID: null});
-    };
-
-    render() {
-        return (
-          <div className="App">
-            <Navbar fluid collapseOnSelect>
-              <Navbar.Header>
-                <Navbar.Brand>
-                  <Link to="/">
-                    <img id="navLogo" src={WebLogo} alt="Optimism Logo"></img>
-                  </Link>
-                </Navbar.Brand>
-              </Navbar.Header>
-              <Navbar.Collapse>
-                <Nav pullRight>
-                  <NavItem href="/homepage">Test Home</NavItem>
-                  <NavItem href="/signup">Signup</NavItem>
-                  <NavItem href="/login">Login</NavItem>
-                </Nav>
-              </Navbar.Collapse>
-            </Navbar>
-            <Routes />
-          </div>
-          
-        )
-    }
-  }
 export default App;
+
