@@ -1,10 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import "./home.css";
-import WebLogo from "./images/banner_dark.png";
-import HowArt from "./images/how.png";
+import WebLogo from "./hireslogo.png";
+import HowArt from "./how.png";
 
-export default class Home extends Component {
-  render() {
+const Home = () => {
     return (
       <div className="Home">
 
@@ -46,6 +45,7 @@ export default class Home extends Component {
           </div>
         </div>
       </div>
-    );
-  }
+   );
 }
+
+export default Home;

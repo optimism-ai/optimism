@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://github.com/optimism-ai/optimism/blob/master/client/src/img/place_holder.png" alt="optimism" width="226">
+  <img src="https://github.com/optimism-ai/optimism/blob/master/client/src/img/sun.png" alt="optimism" width="226">
 </p>
 
 <p align="center">How happy are you?</p>

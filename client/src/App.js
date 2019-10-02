@@ -1,56 +1,28 @@
 import React, {Component} from 'react';
 import './App.css';
-import { Navbar, Nav, NavItem } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import WebLogo from "./containers/images/banner_dark.png";
-import Routes from "./Routes";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Profile from "./components/Profile";
+import Home from "./components/Home";
+import Dashboard from "./components/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
-class App extends Component {
-  constructor() {
-      super();
-      let initial = null;
-      this.state = {
-        userID: initial
-      };
-    }
+function App() {
+  return (
+      <BrowserRouter>
+        <div>
+            <div>
+                <NavBar />
+            </div>
+            <Switch>
+                <Route path="/" exact component={Home}/>
+                <PrivateRoute path="/profile" component={Profile} />
+                <PrivateRoute path="/dashboard" component={Dashboard} />
+            </Switch>
+        </div>
+      </BrowserRouter>
+  );
+}
 
-    logUserIn = e => {
-      let testID = 1;
-      console.log("ID = 1");
-      this.setState({
-        userID: testID
-      });
-    }
-
-  logUserOut = (e) => {
-      e.preventDefault()
-      console.log("ID = null");
-      this.setState({userID: null});
-    };
-
-    render() {
-        return (
-          <div className="App">
-            <Navbar fluid collapseOnSelect>
-              <Navbar.Header>
-                <Navbar.Brand>
-                  <Link to="/">
-                    <img id="navLogo" src={WebLogo} alt="Optimism Logo"></img>
-                  </Link>
-                </Navbar.Brand>
-              </Navbar.Header>
-              <Navbar.Collapse>
-                <Nav pullRight>
-                  <NavItem href="/homepage">Test Home</NavItem>
-                  <NavItem href="/signup">Signup</NavItem>
-                  <NavItem href="/login">Login</NavItem>
-                </Nav>
-              </Navbar.Collapse>
-            </Navbar>
-            <Routes />
-          </div>
-          
-        )
-    }
-  }
 export default App;
+
