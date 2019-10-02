@@ -1,37 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa&display=swap');
+
 .Home {
-  text-align: center;
-  width: 100% !important;
-  padding-left: 0;
-  padding-right: 0;
-  background-image: url(../sunsetbackground.jpg);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-.Home .lander {
-    padding: 20px 0;
     text-align: center;
+    font-family: 'Comfortaa';
 }
 
-.Home .lander h1 {
-    font-weight: 600;
+.Home .banner {
+    max-width: 40%;
+    padding: 20px;
 }
 
-.Home .lander p {    
-    color: black;
+.Home .lander .description .quote {
+    padding: 10px;
+    padding-bottom: 0px;
 }
 
-.Home .lander .aboutUs {
-    margin-left: 12%;
-    margin-right: 12%;
+.Home .lander .description {
+    margin-left: 15%;
+    margin-right: 15%;
+    background-color: rgb(255, 202, 44);
+    border-radius: 10px;
+    color: rgb(255, 255, 255);
+    /* padding: 15px; */
 }
 
-.Home .lander .howItWorks {
+.Home .lander .demo {
     margin: 80px 0px 20px 0px;
     background-color: #6ea4bf;
 }
 
-.Home .lander .howPic {
+.Home .lander .demo_pic {
     max-width: 100%;
     margin: 20px 0px 20px 0px;
 }

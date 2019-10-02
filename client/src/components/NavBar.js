@@ -11,14 +11,13 @@ const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
   return (
-    <div>
+    <div className="App">
         <Navbar fluid collapseOnSelect>
             <Navbar.Header>
                 <Navbar.Brand>
                     {!isAuthenticated && <Link to="/"><img id="navLogo" src={WebLogo} alt="Optimism Logo"></img></Link>}
                     {isAuthenticated && <Link to="/dashboard"><img id="navLogo" src={WebLogo} alt="Optimism Logo"></img></Link>}
                   <Link to="/">
-                    
                   </Link>
                 </Navbar.Brand>
             </Navbar.Header>
