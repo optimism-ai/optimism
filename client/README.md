@@ -18,7 +18,7 @@ To do this, first copy `src/auth_config.json.example` into a new file in the sam
 {
   "domain": "{YOUR AUTH0 DOMAIN}",
   "clientId": "{YOUR AUTH0 CLIENT ID}",
-  "callbackUrl": "{YOUR AUTH0 CALLBACK URL}"
+  "callbackUrl": "{YOUR AUTH0 CALLBACK URL}",
   "audience": "{YOUR AUTH0 API IDENTIFIER}"
 }
 ```

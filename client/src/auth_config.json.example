@@ -1,6 +1,6 @@
 {
   "domain": "{YOUR AUTH0 DOMAIN}",
   "clientId": "{YOUR AUTH0 CLIENT ID}",
-  "callbackUrl": "{YOUR AUTH0 CALLBACK URL}"
+  "callbackUrl": "{YOUR AUTH0 CALLBACK URL}",
   "audience": "{YOUR AUTH0 API AUDIENCE}"
 }
