@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useAuth0 } from "../react-auth0-wrapper";
 import "./dashboard.css";
 import CanvasJSReact from './canvasjs.react.js';
+import { Button } from 'react-bootstrap'
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const Dashboard = () => {
@@ -60,10 +61,12 @@ const Dashboard = () => {
           { y: 6, label: "Mental"},
         ]
       }]
+    }
 
     return (
       <div>
       {isAuthenticated && (
+      <>
         <div className="userInfo">
           <div className="usrPic">
             <h2>User Pic</h2>
@@ -104,6 +107,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+        </>
       )}
         {showResult && <code>{JSON.stringify(apiMessage, null, 2)}</code>}
       </div>
