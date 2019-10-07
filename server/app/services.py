@@ -1,5 +1,6 @@
 
 from .models import Mood, Aspect
+from .storage import Repository
 
 class Lister:
     '''Service for listing objects
@@ -11,6 +12,8 @@ class Lister:
     repo = None
     
     def __init__(self, repo):
+        if not issubclass(type(repo), Repository):
+            raise Exception(f'{str(type(repo))} is not subclass of {str(Repository.__name__)}')
         self.repo = repo
 
     def moods(self):

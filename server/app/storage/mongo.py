@@ -1,11 +1,12 @@
 
 from pymongo import MongoClient
 from .models import Mood, Aspect
+from .repository import Repository
 
 from pprint import pprint
 import os
 
-class MongoDB(MongoClient):
+class MongoDB(Repository, MongoClient):
     '''MongoDB Interfacing class. Inherits MongoClient'''
 
     def __init__(self, URI):
