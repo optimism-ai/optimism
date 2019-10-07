@@ -6,6 +6,7 @@ import Profile from "./components/Profile";
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
+import MoodSelection from "./components/moodSelection"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/" exact component={Home}/>
                 <PrivateRoute path="/profile" component={Profile} />
                 <PrivateRoute path="/dashboard" component={Dashboard} />
+                <PrivateRoute path="/moodselection" component={MoodSelection} />
             </Switch>
         </div>
       </BrowserRouter>
