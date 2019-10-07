@@ -112,13 +112,21 @@ def requires_auth(f):
                         "description": "Unable to find appropriate key"}, 401)
     return decorated
 
-@APP.route("/api/private/list/moods")
-@cross_origin(headers=["Content-Type", "Authorization"])
-#@requires_auth
+@APP.route("/api/private/list/all_moods")
+@cross_origin(headers=["content-type", "authorization"])
+@requires_auth
 def get_moods():
-    moods = lister.moods()
+    moods = lister.all_moods()
     json_moods = dumps([mood.__dict__ for mood in moods])
     return json_moods
+
+@APP.route("/api/private/list/all_aspects")
+@cross_origin(headers=["content-type", "authorization"])
+@requires_auth
+def get_aspects():
+    aspects = lister.all_aspects()
+    json_aspects = dumps([aspect.__dict__ for aspect in aspects])
+    return json_aspects
 
 APP.run()
 
