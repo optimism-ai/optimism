@@ -21,7 +21,7 @@ const Dashboard = () => {
         try {
             const token = await getTokenSilently();
 
-            const response = await fetch("/api/private/list/moods", {
+            const response = await fetch("/api/private/list/all_moods", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
