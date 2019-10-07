@@ -114,7 +114,7 @@ def requires_auth(f):
 
 @APP.route("/api/private/list/moods")
 @cross_origin(headers=["Content-Type", "Authorization"])
-@requires_auth
+#@requires_auth
 def get_moods():
     moods = lister.moods()
     json_moods = dumps([mood.__dict__ for mood in moods])
