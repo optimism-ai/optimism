@@ -4,7 +4,7 @@ import React from "react";
 import { useAuth0 } from "../react-auth0-wrapper";
 import { Link } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
-import WebLogo from "./hireslogo.png";
+import WebLogo from "./images/banner_dark.png";
 import "./navbar.css";
 
 const NavBar = () => {

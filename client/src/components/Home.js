@@ -1,6 +1,6 @@
 import React from "react";
 import "./home.css";
-import WebLogo from "./hireslogo.png";
+import WebLogo from "./images/banner_dark.png";
 import HowArt from "./how.png";
 
 const Home = () => {
