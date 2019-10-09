@@ -1,2 +1,3 @@
 
-from .mongodb.repository import MongoDB
+from .mongo import MongoDB
+from .repository import Repository
