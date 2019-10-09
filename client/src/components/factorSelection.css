@@ -12,21 +12,25 @@ body {
     width: 100%;
 }
 
-.moodChoices {
+.factorChoices {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    text-align: center;
 }
 
-.options {
-    font-size: 24pt;
+.options {    
+    font-size: 20pt;
+    margin: 10px;
+    width: 33%;
 }
 
 
 
 .buttonFooter {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-left: 30px;
     margin-right: 30px;
 }

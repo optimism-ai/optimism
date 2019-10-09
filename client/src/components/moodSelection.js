@@ -1,4 +1,5 @@
 import React from "react";
+import {Button} from"react-bootstrap";
 import "./moodSelection.css";
 
 const MoodSelection = () => {
@@ -32,6 +33,11 @@ const MoodSelection = () => {
                             Awesome
                     </label>
                 </div>
+                <footer className="buttonFooter">
+                    <Button href="/dashboard">Exit Survey</Button>
+                    <Button href="/factorselection">Next</Button>
+
+                </footer>
             </div>
         );
     }
