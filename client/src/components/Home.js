@@ -1,7 +1,19 @@
 import React from "react";
 import "./home.css";
 import banner_img from "./images/banner_dark.png";
-import diagram_img from "./how.png";
+import mood1 from "./images/mood1.png";
+import mood2 from "./images/mood2.png";
+import mood3 from "./images/mood3.png";
+
+import act1 from "./images/act1.png";
+import act2 from "./images/act2.png";
+import act3 from "./images/act3.png";
+
+import chart1 from "./images/chart1.png";
+import chart2 from "./images/chart2.png";
+import chart3 from "./images/chart3.png";
+
+import arrow from "./images/arrow.png";
 
 const Home = () => {
     return (
@@ -24,7 +36,29 @@ const Home = () => {
             <h2>
               How does it work?
             </h2>
-            <img className="diagram" src={diagram_img} alt="Diagram Image"/>
+
+            <div class="container">
+
+            <div class="condiv">
+              <img class="mood" src={mood1}/>
+              <img class="mood" src={mood2}/>
+              <img class="mood" src={mood3}/>
+            </div>
+            <img class="arrow" src={arrow}/>
+            <div class="condiv">
+              <img class="act" src={act1}/>
+              <img class="act" src={act2}/>
+              <img class="act" src={act3}/>
+            </div>
+            <img class="arrow" src={arrow}/>
+            <div class="condiv">
+              <img class="chart" src={chart1}/>
+              <img class="chart" src={chart2}/>
+              <img class="chart" src={chart3}/>
+            </div>
+
+            </div>
+
             <p className="howBody">
             The apps works by receiving input from the user which includes two things, their mood and what activities
             they have been up to. Once the user inputs their mood, our smart algorithms will give feedback and suggestions
