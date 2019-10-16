@@ -44,13 +44,17 @@ const Home = () => {
               <img class="mood" src={mood2}/>
               <img class="mood" src={mood3}/>
             </div>
-            <img class="arrow" src={arrow}/>
+            <div class="arrowdiv">
+              <img class="arrow" src={arrow}/>
+            </div>
             <div class="condiv">
               <img class="act" src={act1}/>
               <img class="act" src={act2}/>
               <img class="act" src={act3}/>
             </div>
-            <img class="arrow" src={arrow}/>
+            <div class="arrowdiv">
+              <img class="arrow" src={arrow}/>
+            </div>
             <div class="condiv">
               <img class="chart" src={chart1}/>
               <img class="chart" src={chart2}/>
@@ -59,7 +63,7 @@ const Home = () => {
 
             </div>
 
-            <p className="howBody">
+            <p className="howbody">
             The apps works by receiving input from the user which includes two things, their mood and what activities
             they have been up to. Once the user inputs their mood, our smart algorithms will give feedback and suggestions
             and also provide data and insights to their overall mood. Since Optimism (tm) strives to improve your

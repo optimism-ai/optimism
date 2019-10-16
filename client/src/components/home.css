@@ -34,14 +34,13 @@
 .condiv {
     padding: 4px;
     text-align: center;
-    vertical-align: middle;
     height: 350px;
     border-style: solid;
     border-color: black;
     width: 25%;
     border-radius: 12px;
     background-color: white;
-    margin: 4px;
+    margin: 8px;
 }
 
 .mood {
@@ -57,8 +56,14 @@
 }
 
 .arrow {
-    vertical-align: middle;
-    max-height: 60px;
-    max-width: 10%;
+    position: relative;
+    top: 40%;
+    height: 80px;
+    max-width: 70px;
+}
+
+.how .howbody {
+    margin-top: 30px;
+    margin-bottom: 25px;
 }
 
