@@ -1,14 +1,14 @@
 import React from "react";
 import "./home.css";
-import WebLogo from "./images/banner_dark.png";
-import HowArt from "./how.png";
+import banner_img from "./images/banner_dark.png";
+import diagram_img from "./how.png";
 
 const Home = () => {
     return (
       <div className="homepage">
 
           <div className="description">
-          <img className="banner" src={WebLogo} alt="Optimism Logo"/>
+          <img className="banner" src={banner_img} alt="Optimism Logo"/>
             <p>
               Optimism is a daily mood tracker.
             </p>
@@ -24,7 +24,7 @@ const Home = () => {
             <h2>
               How does it work?
             </h2>
-            <img className="howClipArt" src={HowArt} alt="How it Works"/>
+            <img className="diagram" src={diagram_img} alt="Diagram Image"/>
             <p className="howBody">
             The apps works by receiving input from the user which includes two things, their mood and what activities
             they have been up to. Once the user inputs their mood, our smart algorithms will give feedback and suggestions
