@@ -3,7 +3,6 @@ import {Button} from "react-bootstrap";
 import "./factorSelection.css"
 
 const FactorSelection = () => {
-
     return (
         <div>
             <div className="heading">
@@ -13,7 +12,7 @@ const FactorSelection = () => {
             </div>
             <div className="factorChoices">
                     <label className="options">
-                        <input type = "checkbox" value="option1" checked={true} />
+                        <input type = "checkbox" value="option1" />
                             Factor
                     </label>
                     <label className="options">
@@ -33,7 +32,7 @@ const FactorSelection = () => {
                             Factor
                     </label>
                     <label className="options">
-                        <input type = "checkbox" value="option1" checked={true} />
+                        <input type = "checkbox" value="option1" />
                             Factor
                     </label>
                     <label className="options">

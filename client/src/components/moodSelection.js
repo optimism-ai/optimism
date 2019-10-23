@@ -1,9 +1,26 @@
-import React from "react";
+import React, {Component} from "react";
 import {Button} from"react-bootstrap";
+import {RadioGroup, RadioButton} from 'react-radio-buttons';
 import "./moodSelection.css";
 
-const MoodSelection = () => {
+class MoodSelection extends Component {
+    constructor(){
+        super();
 
+        this.state = {
+            mood:'awful'
+        };
+
+        this.onRadioChange = this.onRadioChange.bind(this);
+    }
+
+    onRadioChange = (e) => {
+        this.setState({
+            mood: e.target.value
+        });
+    }
+
+    render() {
         return (
             <div>
                 <div className="heading">
@@ -12,26 +29,38 @@ const MoodSelection = () => {
                     </h1>
                 </div>
                 <div className="moodChoices">
-                    <label className="options">
-                        <input type = "radio" value="option1" checked={true} />
+                    <RadioGroup horizontal>
+                        <RadioButton 
+                            value="awful"
+                            checked={this.state.mood === "awful"}
+                            onChange={this.onRadioChange}>
                             Awful
-                    </label>
-                    <label className="options">
-                        <input type = "radio" value="option2" />
+                        </RadioButton>
+                        <RadioButton
+                            value="bad"
+                            checked={this.state.mood === "bad"}
+                            onChange={this.onRadioChange}>
                             Bad
-                    </label>
-                    <label className="options">
-                        <input type = "radio" value="option3" />
+                        </RadioButton>
+                        <RadioButton
+                            value="alright"
+                            checked={this.state.mood === "alright"}
+                            onChange={this.onRadioChange}>
                             Alright
-                    </label>
-                    <label className="options">
-                        <input type = "radio" value="option4" />
+                        </RadioButton>
+                        <RadioButton
+                            value="good"
+                            checked={this.state.mood ==="good"}
+                            onChange={this.onRadioChange}>
                             Good
-                    </label>
-                    <label className = "options">
-                        <input type = "radio" value="option5" />
-                            Awesome
-                    </label>
+                        </RadioButton>
+                        <RadioButton
+                            value="great"
+                            checked={this.state.mood === "great"}
+                            onChange={this.onRadioChange}>
+                            Great
+                        </RadioButton>
+                    </RadioGroup>
                 </div>
                 <footer className="buttonFooter">
                     <Button href="/dashboard">Exit Survey</Button>
@@ -41,5 +70,6 @@ const MoodSelection = () => {
             </div>
         );
     }
+}
 
 export default MoodSelection;
