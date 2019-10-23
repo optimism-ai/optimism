@@ -3,15 +3,15 @@ import React, { useState } from "react";
 import { useAuth0 } from "../react-auth0-wrapper";
 import "./dashboard.css";
 import CanvasJSReact from './canvasjs.react.js';
-import { Button } from 'react-bootstrap'
+import {Link} from "react-router-dom";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const Dashboard = () => {
     const [showResult, setShowResult] = useState(false);
     const [apiMessage, setApiMessage] = useState("");
 
-    const { isAuthenticated, loading, getTokenSilently } = useAuth0();
-    if (loading) {
+    const { isAuthenticated, loading, getTokenSilently, user } = useAuth0();
+    if (loading || !user) {
         return (
             <div></div>
         );
@@ -21,7 +21,7 @@ const Dashboard = () => {
         try {
             const token = await getTokenSilently();
 
-            const response = await fetch("/api/private/list/moods", {
+            const response = await fetch("/api/private/list/all_moods", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -68,14 +68,14 @@ const Dashboard = () => {
       {isAuthenticated && (
       <>
         <div className="userInfo">
-          <div className="usrPic">
-            <h2>User Pic</h2>
+          <div>
+            <img className="userPic" src={user.picture} />
           </div>
-          <div class="usrName">
-            <h2>John Doe</h2>
+          <div>
+            <h2 className="usrName">{user.name}</h2>
           </div>
           <div className="doSurvey">
-            <Button variant="outline-primary">Do Survey</Button>
+            <Link to="/moodselection">Do Survey</Link>
           </div>
         </div>
         <div className="container">

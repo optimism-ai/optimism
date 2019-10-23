@@ -40,3 +40,12 @@ html * {
     border-radius: 10px;
     margin: 20px;
 }
+
+.userPic {
+    width: 50px;
+    border-radius: 10px;
+}
+
+.usrName {
+    font-size: 12pt;
+}
