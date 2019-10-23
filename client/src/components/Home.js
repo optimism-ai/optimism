@@ -1,49 +1,79 @@
 import React from "react";
 import "./home.css";
-import WebLogo from "./hireslogo.png";
-import HowArt from "./how.png";
+import banner_img from "./images/banner_dark.png";
+import mood1 from "./images/mood1.png";
+import mood2 from "./images/mood2.png";
+import mood3 from "./images/mood3.png";
+
+import act1 from "./images/act1.png";
+import act2 from "./images/act2.png";
+import act3 from "./images/act3.png";
+
+import chart1 from "./images/chart1.png";
+import chart2 from "./images/chart2.png";
+import chart3 from "./images/chart3.png";
+
+import arrow from "./images/arrow.png";
 
 const Home = () => {
     return (
-      <div className="Home">
-
-        <img className="banner" src={WebLogo} alt="Optimism Logo"></img>
-
-        <div className="lander">
+      <div className="homepage">
 
           <div className="description">
-
-            <h1 className="quote">Be Happy, Stay Happy</h1>
+          <img className="banner" src={banner_img} alt="Optimism Logo"/>
             <p>
-              Optimism will help you log your daily mood and activities. We intend to improve and maintain
-              your happiness. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-              ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-              in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-              non proident, sunt in culpa qui officia
+              Optimism is a daily mood tracker.
+            </p>
+            <p>
+            We intend to improve, track, and
+            </p>
+            <p>
+            maintain your overall happiness.
             </p>
           </div>
 
-          <div className="demo">
-            <h2 className="howTitle">
-              How It Works!
+          <div className="how">
+            <h2>
+              How does it work?
             </h2>
-            <div className="demo_pic">
-              <img className="howClipArt" src={HowArt} alt="How it Works"></img>
+
+            <div class="container">
+
+            <div class="condiv">
+              <img class="mood" src={mood1}/>
+              <img class="mood" src={mood2}/>
+              <img class="mood" src={mood3}/>
             </div>
-            <p className="howBody">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-            totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-            sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-            consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-            dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi
-            tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, 
-            quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-            consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae
-            consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+            <div class="arrowdiv">
+              <img class="arrow" src={arrow}/>
+            </div>
+            <div class="condiv">
+              <img class="act" src={act1}/>
+              <img class="act" src={act2}/>
+              <img class="act" src={act3}/>
+            </div>
+            <div class="arrowdiv">
+              <img class="arrow" src={arrow}/>
+            </div>
+            <div class="condiv">
+              <img class="chart" src={chart1}/>
+              <img class="chart" src={chart2}/>
+              <img class="chart" src={chart3}/>
+            </div>
+
+            </div>
+
+            <p className="howbody">
+            The apps works by receiving input from the user which includes two things, their mood and what activities
+            they have been up to. Once the user inputs their mood, our smart algorithms will give feedback and suggestions
+            and also provide data and insights to their overall mood. Since Optimism (tm) strives to improve your
+            mood, we will never share your data. It is all encrypted with the SHA-256 protocol etc. The apps works by
+            receiving input from the user which includes two things, their mood and what activities
+            they have been up to. Once the user inputs their mood, our smart algorithms will give feedback and suggestions
+            and also provide data and insights to their overall mood. Since Optimism (tm) strives to improve your
+            mood, we will never share your data. It is all encrypted with the SHA-256 protocol etc.
             </p>
           </div>
-        </div>
       </div>
    );
 }
