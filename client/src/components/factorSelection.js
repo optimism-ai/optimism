@@ -54,7 +54,7 @@ const FactorSelection = () => {
             </div>
             <footer className="buttonFooter">
                 <Button href="/dashboard">Exit Survey</Button>
-                <Button type="submit">Submit</Button>
+                <Button href="/surveysummary" type="submit">Submit</Button>
             </footer>
         </div>
     );

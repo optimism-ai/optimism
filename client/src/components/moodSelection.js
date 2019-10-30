@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {Button} from"react-bootstrap";
-import {RadioGroup, RadioButton} from 'react-radio-buttons';
 import "./moodSelection.css";
 
 class MoodSelection extends Component {
@@ -10,13 +9,12 @@ class MoodSelection extends Component {
         this.state = {
             mood:'awful'
         };
-
-        this.onRadioChange = this.onRadioChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    onRadioChange = (e) => {
+    handleChange(event) {
         this.setState({
-            mood: e.target.value
+            mood: event.target.value
         });
     }
 
@@ -29,38 +27,51 @@ class MoodSelection extends Component {
                     </h1>
                 </div>
                 <div className="moodChoices">
-                    <RadioGroup horizontal>
-                        <RadioButton 
-                            value="awful"
+                    <label>
+                        <input
+                            type = "radio"
+                            value = "awful"
                             checked={this.state.mood === "awful"}
-                            onChange={this.onRadioChange}>
-                            Awful
-                        </RadioButton>
-                        <RadioButton
-                            value="bad"
-                            checked={this.state.mood === "bad"}
-                            onChange={this.onRadioChange}>
-                            Bad
-                        </RadioButton>
-                        <RadioButton
-                            value="alright"
+                            onChange = {this.handleChange}
+                        />
+                        Awful
+                    </label>
+                    <label>
+                        <input
+                            type = "radio"
+                            value = "sad"
+                            checked={this.state.mood ==="sad"}
+                            onChange = {this.handleChange}
+                        />
+                        Sad
+                    </label>
+                    <label>
+                        <input
+                            type = "radio"
+                            value = "alright"
                             checked={this.state.mood === "alright"}
-                            onChange={this.onRadioChange}>
-                            Alright
-                        </RadioButton>
-                        <RadioButton
-                            value="good"
-                            checked={this.state.mood ==="good"}
-                            onChange={this.onRadioChange}>
-                            Good
-                        </RadioButton>
-                        <RadioButton
-                            value="great"
-                            checked={this.state.mood === "great"}
-                            onChange={this.onRadioChange}>
-                            Great
-                        </RadioButton>
-                    </RadioGroup>
+                            onChange = {this.handleChange}
+                        />
+                        Alright
+                    </label>
+                    <label>
+                        <input
+                            type = "radio"
+                            value = "happy"
+                            checked={this.state.mood === "happy"}
+                            onChange= {this.handleChange}
+                        />
+                        Happy
+                    </label>
+                    <label>
+                        <input
+                            type = "radio"
+                            value = "ecstatic"
+                            checked={this.state.mood === "ecstatic"}
+                            onChange = {this.handleChange}
+                        />
+                        Ecstatic
+                    </label>
                 </div>
                 <footer className="buttonFooter">
                     <Button href="/dashboard">Exit Survey</Button>
