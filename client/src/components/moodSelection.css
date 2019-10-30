@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    font-family: 'Comfortaa';
     margin-top: 50px;
     margin-bottom: 50px;
 }
@@ -21,8 +22,6 @@ body {
 .options {
     font-size: 24pt;
 }
-
-
 
 .buttonFooter {
     display: flex;

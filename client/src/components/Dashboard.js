@@ -51,6 +51,11 @@ const Dashboard = () => {
         labelFontSize: 0,
       },
       data: [{
+
+        click: function(e) {
+          window.open("/aspectsummary");
+        },
+
         type: "bar",
         dataPoints: [
           { y: 5, label: "Work"},
