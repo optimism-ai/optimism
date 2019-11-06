@@ -39,6 +39,7 @@ const Dashboard = () => {
     callApi()
 
     const options = {
+      animationEnabled: true,
       axisX: {
         gridThickness: 0,
         tickThickness: 0,
