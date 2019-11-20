@@ -14,7 +14,7 @@
     font-size: 40px;
     font-weight: 500;
     margin-left: 15%;
-    margin-top: 30px;
+    margin-top: 5%;
     text-align: left;
     margin-bottom: 100px;
 }
@@ -34,23 +34,26 @@
 .condiv {
     padding: 4px;
     text-align: center;
-    /* height: 350px; */
     border-style: solid;
     border-color: black;
+    border-width: thick;
     width: 25%;
     border-radius: 12px;
     background-color: white;
     margin: 8px;
 }
 
+/* Mood */
 .mood {
     max-width: 60%;
 }
 
+/* Activity */
 .act {
     max-width: 60%;
 }
 
+/* Chart */
 .chart {
     max-width:60%;
 }
@@ -58,8 +61,8 @@
 .arrow {
     position: relative;
     top: 40%;
-    height: 80px;
     max-width: 70px;
+    width: 100%;
 }
 
 .how .howbody {

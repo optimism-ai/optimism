@@ -18,9 +18,10 @@ import arrow from "./images/arrow.png";
 const Home = () => {
     return (
       <div className="homepage">
-
+          
           <div className="description">
           <img className="banner" src={banner_img} alt="Optimism Logo"/>
+          
             <p>
               Optimism is a daily mood tracker.
             </p>
