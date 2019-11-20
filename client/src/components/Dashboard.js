@@ -52,11 +52,6 @@ const Dashboard = () => {
         labelFontSize: 0,
       },
       data: [{
-
-        click: function(e) {
-          window.open("/aspectsummary");
-        },
-
         type: "bar",
         dataPoints: [
           { y: 5, label: "Work"},
@@ -82,6 +77,9 @@ const Dashboard = () => {
           </div>
           <div className="doSurvey">
             <Link to="/moodselection">Do Survey</Link>
+          </div>
+          <div className="aspectHistory">
+            <Link to="/aspecthistory">Aspect History</Link>
           </div>
         </div>
         <div className="container">

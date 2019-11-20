@@ -9,7 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import MoodSelection from "./components/moodSelection";
 import FactorSelection from "./components/factorSelection";
 import SurveySummary from "./components/surveySummary"
-import AspectSummary from './components/aspectSummary';
+import AspectHistory from './components/aspectHistory';
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
                 <PrivateRoute path="/moodselection" component={MoodSelection} />
                 <PrivateRoute path="/factorselection" component={FactorSelection} />
                 <PrivateRoute path="/surveysummary" component={SurveySummary} />
-                <PrivateRoute path="/aspectsummary" component={AspectSummary} />
+                <PrivateRoute path="/aspecthistory" component={AspectHistory} />
             </Switch>
         </div>
       </BrowserRouter>
