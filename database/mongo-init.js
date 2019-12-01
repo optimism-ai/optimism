@@ -9,13 +9,13 @@ db.createCollection(
         validator: { 
             $jsonSchema: {
                 bsonType: "object",
-                required: [ "name", "level" ],
+                required: [ "name", "weight" ],
                 properties: {
                     name: {
                         bsonType: "string",
                         description: "name of mood"
                     },
-                    level: {
+                    weight: {
                         bsonType: "int",
                         description: "how the mood impacts aspects"
                     }
@@ -170,7 +170,7 @@ db.createCollection(
 db.Mood.insertOne(
     {
         name: "mood name",
-        level: NumberInt(0)
+        weight: NumberInt(0)
     }
 )
 
@@ -192,7 +192,6 @@ db.User.insertOne(
     {
         firstName: "bob",
         lastName: "tran",
-        password: "password",
         email: "bobtran@bobtran.com",
         entry: [
             {
