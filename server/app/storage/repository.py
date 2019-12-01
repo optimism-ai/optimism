@@ -5,10 +5,12 @@ class Repository(ABC):
 
     @abstractmethod
     def get_moods(self): 
-        '''Obtain all moods'''
+        '''Obtain all moods
+        '''
         pass
 
     @abstractmethod
     def get_aspects(self):
-        '''Obtain all aspects'''
+        '''Obtain all aspects
+        '''
         pass

@@ -32,7 +32,7 @@ class MongoDB(Repository, MongoClient):
         moods = []
         moods_cursor = self.test.Mood.find()
         for mood in moods_cursor:
-            moods.append(Mood(mood['_id'], mood['name'], mood['level']))
+            moods.append(Mood(mood['_id'], mood['name'], mood['weight']))
         return moods
 
     def get_aspects(self):

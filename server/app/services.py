@@ -23,11 +23,11 @@ class Lister:
 
         Raises
         ------
-        Exception
+        TypeError
             if 'repo' is not subclass of abstract class Repository
         '''
         if not issubclass(type(repo), Repository):
-            raise Exception(f'{str(type(repo))} is not subclass of {str(Repository.__name__)}')
+            raise TypeError(f'{str(type(repo))} is not subclass of {str(Repository.__name__)}')
         self.repo = repo
 
     def all_moods(self):
@@ -41,7 +41,7 @@ class Lister:
         moods = []
         repo_moods = self.repo.get_moods()
         for repo_mood in repo_moods:
-            moods.append(Mood(repo_mood.name, repo_mood.level))
+            moods.append(Mood(repo_mood.name, repo_mood.weight))
         return moods
 
     def all_aspects(self):

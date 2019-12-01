@@ -22,14 +22,14 @@ class Mood:
         Unique hash mapping to a mood
     name : str
         Name of the mood (e.g. good)
-    level : int
+    weight : int
         How much the mood influences one's aspect of life
     '''
-    def __init__(self, _id, name, level):
+    def __init__(self, _id, name, weight):
         '''Initializes Mood object'''
         self._id = _id
         self.name = name
-        self.level = level
+        self.weight = weight
 
 class Aspect:
     '''Representation of Aspect entity
