@@ -14,3 +14,21 @@ class Repository(ABC):
         '''Obtain all aspects
         '''
         pass
+
+    @abstractmethod
+    def get_user_aspects(self):
+        '''Obtain aspects of a user
+        '''
+        pass
+
+    @abstractmethod
+    def get_entries_by_range(self):
+        '''Obtain entries of a user with specified range
+        '''
+        pass
+
+    @abstractmethod
+    def get_entries_by_aspect(self):
+        '''Obtain aspects of a user with a specified aspect and range
+        '''
+        pass
