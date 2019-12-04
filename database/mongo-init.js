@@ -55,11 +55,11 @@ db.createCollection(
         validator: { 
             $jsonSchema: {
                 bsonType: "object",
-                required: [ "description", "aspectIDs" ],
+                required: [ "name", "aspectIDs" ],
                 properties: {
-                    description: {
+                    name: {
                         bsonType: "string",
-                        description: "description of factor"
+                        description: "name of factor"
                     },
                     aspectIDs: {
                         bsonType: "array",
@@ -83,14 +83,6 @@ db.createCollection(
                 bsonType: "object",
                 required: [ "email" ],
                 properties: {
-                    firstName: {
-                        bsonType: "string",
-                        description: "first name of the user"
-                    },
-                    lastName: {
-                        bsonType: "string",
-                        description: "last name of the user"
-                    },
                     email: {
                         bsonType: "string",
                         description: "email of the user"
@@ -183,15 +175,13 @@ db.Aspect.insertOne(
 
 db.Factor.insertOne(
     {
-        description: "factor description",
+        name: "factor name",
         aspectIDs: [ db.Aspect.find()[0]["_id"] ]
     }
 )
 
 db.User.insertOne(
     {
-        firstName: "bob",
-        lastName: "tran",
         email: "bobtran@bobtran.com",
         entry: [
             {
