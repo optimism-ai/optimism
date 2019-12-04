@@ -7,7 +7,7 @@ const MoodSelection = () => {
             <div>
                 <div className="heading">
                     <h1 className="pageTitle">
-                        How Are You Feeling Today?
+                        How are you feeling today?
                     </h1>
                 </div>
                 <div className="moodChoices">
