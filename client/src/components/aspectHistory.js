@@ -34,8 +34,10 @@ const AspectHistory = () => {
 
         return (
             <div>
+                <hi>TEST</hi>
                 {isAuthenticated && (
                     <>
+                        <h1>test</h1>
                         <div className = "mentalChart">
                             <CanvasJSChart histChart = {histChart}/>
                         </div>
