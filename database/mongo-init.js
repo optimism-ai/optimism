@@ -192,13 +192,13 @@ db.Mood.insertOne(
 
 db.Aspect.insertOne(
     {
-        name: "work",
+        name: "Work",
         description: "How your work life contributes to your general mood"
     }
 )
 db.Aspect.insertOne(
     {
-        name: "mental",
+        name: "Mental",
         description: "Mental stability contributes greatly to your general mood"
     }
 )
@@ -229,8 +229,85 @@ db.Aspect.insertOne(
 
 db.Factor.insertOne(
     {
-        name: "factor name",
+        name: "Late for work",
         aspectIDs: [ db.Aspect.find()[0]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Staff meeting",
+        aspectIDs: [ db.Aspect.find()[0]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Sleep",
+        aspectIDs: [ db.Aspect.find()[1]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Relax",
+        aspectIDs: [ db.Aspect.find()[1]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Homework",
+        aspectIDs: [ db.Aspect.find()[2]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Class",
+        aspectIDs: [ db.Aspect.find()[2]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Work out",
+        aspectIDs: [ db.Aspect.find()[3]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Eat food",
+        aspectIDs: [ db.Aspect.find()[3]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Watch movies",
+        aspectIDs: [ db.Aspect.find()[4]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Listen to music",
+        aspectIDs: [ db.Aspect.find()[4]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Time with family/friends ",
+        aspectIDs: [ db.Aspect.find()[5]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Party",
+        aspectIDs: [ db.Aspect.find()[5]["_id"] ]
     }
 )
 
