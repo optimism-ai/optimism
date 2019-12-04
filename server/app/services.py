@@ -92,6 +92,6 @@ class Lister:
         if aspect and range:
             return self.repo.get_entries_by_aspect(email, Aspect(name=aspect), range_=range)
         if range:
-            return self.repo.get_entries_by_range(email, range=range)
+            return self.repo.get_entries_by_range(email, range_=range)
 
         

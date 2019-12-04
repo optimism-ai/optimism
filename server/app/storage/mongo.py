@@ -138,6 +138,60 @@ class MongoDB(Repository, MongoClient):
             print('Stop Iteration')
         return entries
 
-    def get_entries_by_range(self, email, range):
-        return None
+    def get_entries_by_range(self, email, range_):
+        """Obtain entires filtered by a specific aspect and range
+
+        Parameters
+        ----------
+        email : str
+            A user's email
+        range : range
+            range object to specify the range of entries
+
+        Returns
+        -------
+        entries : list
+            List of user's Entry objects
+        """
+        entries = []
+        user = self.test.User.find_one({'email': email})
+        begin = False
+        try:
+            it = iter(range_)
+            count = 0
+            for entry in user['entry']:
+                if not begin:
+                    if count == range_.start:
+                        begin = True
+                if begin:
+                    next(it)
+                    factors = []
+                    for id in entry['factorIDs']:
+                        factor_info = self.test.Factor.find_one({'_id': id})
+                        factor_aspects = []
+                        for aid in factor_info['aspectIDs']:
+                            aspect_info = self.test.Aspect.find_one({'_id': aid})
+                            factor_aspects.append(Aspect(name=aspect_info['name'], description=aspect_info['description']))
+                        factors.append(Factor(factor_info['description'], factor_aspects))
+                    mood_info = self.test.Mood.find_one({'_id': entry['moodID']})
+                    mood = Mood(name=mood_info['name'], weight=mood_info['weight'])
+                    date = entry['dateAdded']
+                    user_aspects = []
+                    for a in entry['aspects']:
+                        aspect_info = self.test.Aspect.find_one({'_id': a['aspectID']})
+                        user_aspects.append(UserAspect(name=aspect_info['name'], description=aspect_info['description'], score=a['score']))
+                    entries.append(
+                        Entry(
+                            factors=factors,
+                            mood=mood,
+                            aspects=user_aspects,
+                            date=entry['dateAdded']
+                        )
+                    )
+                count += 1
+        except IndexError as e:
+            print('Range not aligned with entries')
+        except StopIteration as e:
+            print('Stop Iteration')
+        return entries
 

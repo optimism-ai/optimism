@@ -243,30 +243,12 @@ def entries_by_aspect_range(aspect, start, end):
     try:
         json_data = request.get_json()
         if 'email' not in json_data:
-            raise KeyError('request body must follow {"email" : "email@web.com"} format')
+            raise KeyError('request body must follow {"email" : "email@domain.com"} format')
         email = json_data['email']
         entries = lister.get_entries(email, aspect, range(start-1, end-1))
         for i, entry in enumerate(entries):
-            factors = []
-            for factor in entry.get_factors():
-                aspects = []
-                for aspect in factor.get_aspects():
-                    aspects.append(aspect.__dict__)
-                factors.append({
-                    'description' : factor.get_description(),
-                    'aspects' : aspects
-                })
-            aspects = []
-            for aspect in entry.get_aspects():
-                aspects.append(aspect.__dict__)
-            entries[i] = {
-                'date' : entry.get_date(),
-                'mood' : entry.get_mood().__dict__,
-                'factors': factors,
-                'aspects': aspects
-            }
-        json_entries = dumps(entries)
-        return json_entries, status.HTTP_200_OK
+            entries[i] = entry_to_json(entry)
+        return dumps(entries), status.HTTP_200_OK
     except Exception as e:
         return {'error': str(e)}, status.HTTP_400_BAD_REQUEST
 
@@ -311,7 +293,17 @@ def entry_range(start, end):
     status.HTTP_200_OK
         All entries within the range are aquired
     """
-    return {'start': start, 'end': end}, status.HTTP_200_OK
+    try:
+        json_data = request.get_json()
+        if 'email' not in json_data:
+            raise KeyError('request body must follow {"email" : "email@domain.com"} format')
+        email = json_data['email']
+        entries = lister.get_entries(email, range=range(start-1, end-1))
+        for i, entry in enumerate(entries):
+            entries[i] = entry_to_json(entry)
+        return dumps(entries), status.HTTP_200_OK
+    except Exception as e:
+        return {'error': str(e)}, status.HTTP_400_BAD_REQUEST
 
 @APP.route("/entries", methods=['POST'])
 @cross_origin(headers=["content-type", "authorization"])
@@ -346,6 +338,26 @@ def entries():
         status.HTTP_201_CREATED if the POST request has succeeded
     """
     return {}, status.HTTP_201_CREATED
+
+def entry_to_json(entry):
+    factors = []
+    for factor in entry.get_factors():
+        aspects = []
+        for aspect in factor.get_aspects():
+            aspects.append(aspect.__dict__)
+        factors.append({
+            'description' : factor.get_description(),
+            'aspects' : aspects
+        })
+    aspects = []
+    for aspect in entry.get_aspects():
+        aspects.append(aspect.__dict__)
+    return {
+        'date' : entry.get_date(),
+        'mood' : entry.get_mood().__dict__,
+        'factors': factors,
+        'aspects': aspects
+    }
 
 APP.run()
 
