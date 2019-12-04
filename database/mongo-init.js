@@ -161,15 +161,69 @@ db.createCollection(
 //
 db.Mood.insertOne(
     {
-        name: "mood name",
+        name: "awful",
+        weight: NumberInt(-2)
+    }
+)
+db.Mood.insertOne(
+    {
+        name: "sad",
+        weight: NumberInt(-1)
+    }
+)
+db.Mood.insertOne(
+    {
+        name: "alright",
         weight: NumberInt(0)
+    }
+)
+db.Mood.insertOne(
+    {
+        name: "good",
+        weight: NumberInt(1)
+    }
+)
+db.Mood.insertOne(
+    {
+        name: "awesome",
+        weight: NumberInt(2)
     }
 )
 
 db.Aspect.insertOne(
     {
-        name: "aspect name",
-        description: "aspect description"
+        name: "work",
+        description: "How your work life contributes to your general mood"
+    }
+)
+db.Aspect.insertOne(
+    {
+        name: "mental",
+        description: "Mental stability contributes greatly to your general mood"
+    }
+)
+db.Aspect.insertOne(
+    {
+        name: "Learning",
+        description: "Introduction to new knowledge whether it is in school or self-taught skills can be beneficial to your mood"
+    }
+)
+db.Aspect.insertOne(
+    {
+        name: "Health",
+        description: "How your overall physical health can alter the way you feel"
+    }
+)
+db.Aspect.insertOne(
+    {
+        name: "Media",
+        description: "The amount of time spent on social media can help or hinder your mood"
+    }
+)
+db.Aspect.insertOne(
+    {
+        name: "Social",
+        description: "How your personal relationships with other can affect your feelings"
     }
 )
 
