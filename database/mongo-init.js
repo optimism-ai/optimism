@@ -183,7 +183,7 @@ db.Factor.insertOne(
 db.User.insertOne(
     {
         email: "bobtran@bobtran.com",
-        entry: [
+        entries: [
             {
                 dateAdded: new Date(),
                 moodID: db.Mood.find()[0]["_id"],
@@ -196,7 +196,7 @@ db.User.insertOne(
                 ]
             }
         ],
-        aspect: [
+        aspects: [
             {
                 id: db.Aspect.find()[0]["_id"],
                 count: NumberInt(1),
