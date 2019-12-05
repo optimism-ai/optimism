@@ -1,4 +1,7 @@
 
+from datetime import datetime
+from dateutil import parser
+
 class Mood:
     '''Representation of the Mood entity
 
@@ -124,30 +127,30 @@ class Factor:
 
     Attributes
     ----------
-    description : str
-        Descriptor of the aspect
+    name : str
+        name of the Factor
     aspects : list
         list of Aspects that the factor influences
 
     Methods
     -------
-    get_description()
-        returns the description of the factor
+    get_name()
+        returns the name of the factor
 
     get_aspects()
         returns the aspects the factor influences
     '''
 
-    def __init__(self, description=None, aspects=[]):
+    def __init__(self, name=None, aspects=[]):
         '''Initializes Factor object
         '''
-        self.description = description
+        self.name = name
         self.aspects = aspects
 
-    def get_description(self):
-        '''Return the description of the factor
+    def get_name(self):
+        '''Return the name of the factor
         '''
-        return self.description
+        return self.name
 
     def get_aspects(self):
         '''Return the aspects that are influenced by the factor
@@ -168,8 +171,8 @@ class Entry:
         list of UserAspects that were influenced
     mood : Mood
         Mood object representing how the user felt from the factors
-    date : datetime
-        datetime object. Timestamp of when the entry was made
+    date : str
+        str to be converted to a datetime object. Timestamp of when the entry was made
 
     Methods
     -------
@@ -185,13 +188,16 @@ class Entry:
     get_date()
         returns the date
     """
-    def __init__(self, factors, mood, aspects, date):
+    def __init__(self, factors=[], mood=None, aspects=[], date=None):
         '''Initializes Entry object
         '''
         self.factors = factors
         self.mood = mood
         self.aspects = aspects
-        self.date = date
+        if type(date) == str:
+            self.date = parser.parse(date)
+        else:
+            self.date = date
 
     def get_factors(self):
         '''Return the factors that influences the aspects
@@ -211,5 +217,5 @@ class Entry:
     def get_date(self):
         '''Return the date of the entry
         '''
-        return self.date.strftime("%m/%d/%Y, %I:%M %p")
+        return self.date
 
