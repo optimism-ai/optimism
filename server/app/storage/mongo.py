@@ -64,7 +64,7 @@ class MongoDB(Repository, MongoClient):
         """
         user_aspects = []
         user = self.test.User.find_one({'email': email})
-        for aspect in user['aspect']:
+        for aspect in user['aspects']:
             aspect_info = self.test.Aspect.find_one({'_id': aspect['id']})
             user_aspects.append(
                 UserAspect(
@@ -99,7 +99,7 @@ class MongoDB(Repository, MongoClient):
         try:
             it = iter(range_)
             count = 0
-            for entry in user['entry']:
+            for entry in user['entries']:
                 if aspect_id in [a['aspectID'] for a in entry['aspects']]:
                     if not begin:
                         if count == range_.start:
@@ -113,7 +113,7 @@ class MongoDB(Repository, MongoClient):
                             for aid in factor_info['aspectIDs']:
                                 aspect_info = self.test.Aspect.find_one({'_id': aid})
                                 factor_aspects.append(Aspect(name=aspect_info['name'], description=aspect_info['description']))
-                            factors.append(Factor(factor_info['description'], factor_aspects))
+                            factors.append(Factor(factor_info['name'], factor_aspects))
                         mood_info = self.test.Mood.find_one({'_id': entry['moodID']})
                         mood = Mood(name=mood_info['name'], weight=mood_info['weight'])
                         date = entry['dateAdded']
@@ -159,7 +159,7 @@ class MongoDB(Repository, MongoClient):
         try:
             it = iter(range_)
             count = 0
-            for entry in user['entry']:
+            for entry in user['entries']:
                 if not begin:
                     if count == range_.start:
                         begin = True
@@ -172,7 +172,7 @@ class MongoDB(Repository, MongoClient):
                         for aid in factor_info['aspectIDs']:
                             aspect_info = self.test.Aspect.find_one({'_id': aid})
                             factor_aspects.append(Aspect(name=aspect_info['name'], description=aspect_info['description']))
-                        factors.append(Factor(factor_info['description'], factor_aspects))
+                        factors.append(Factor(factor_info['name'], factor_aspects))
                     mood_info = self.test.Mood.find_one({'_id': entry['moodID']})
                     mood = Mood(name=mood_info['name'], weight=mood_info['weight'])
                     date = entry['dateAdded']
@@ -194,4 +194,99 @@ class MongoDB(Repository, MongoClient):
         except StopIteration as e:
             print('Stop Iteration')
         return entries
+
+    def insert_entry(self, email, entry):
+        """Obtain entires filtered by a specific aspect and range
+
+        Parameters
+        ----------
+        email : str
+            A user's email
+        range : range
+            range object to specify the range of entries
+
+        Returns
+        -------
+        entries : list
+            List of user's Entry objects
+        """
+        user = self.test.User.find_one({'email': email})
+        updated_user_aspects = user['aspects']
+        mood = self.test.Mood.find_one({'name': entry.get_mood().get_name()})
+        mood_weight = mood['weight']
+        mood_id = mood['_id']
+        new_aspects = {}
+        factor_ids = []
+        # Update aspect values
+        for factor in entry.get_factors():
+            factor_info = self.test.Factor.find_one({'name': factor.get_name()})
+            factor_ids.append(factor_info['_id'])
+            for aspect_id in factor_info['aspectIDs']:
+                # Get score
+                for i, aspect in enumerate(updated_user_aspects):
+                    if aspect['id'] == aspect_id:
+                        current_score = aspect['score']
+                        current_count = aspect['count']
+                        new_count = current_count + 1
+                        new_score = (current_score + mood_weight)/new_count
+                        updated_user_aspects[i]['score'] = new_score
+                        updated_user_aspects[i]['count'] = new_count
+                        new_aspects[aspect_id] = new_score
+                        break
+        # Create entry
+        aspects = []
+        for aspect_id in new_aspects:
+            for updated_aspect in updated_user_aspects:
+                if updated_aspect['id'] == aspect_id:
+                    aspects.append({
+                        'aspectID': aspect_id,
+                        'score': updated_aspect['score']
+                    })
+                    break
+        # Update user entry
+        new_entry = {
+            'dateAdded': entry.get_date(),
+            'moodID': mood_id,
+            'factorIDs': factor_ids,
+            'aspects': aspects
+        }
+        pprint(new_entry)
+        pprint(updated_user_aspects)
+        self.test.User.update_one({'email': email}, {'$push': {'entries': new_entry}}, upsert=True)
+        # Update User aspects
+        self.test.User.update_one({'email': email}, {'$set': {'aspects': updated_user_aspects}})
+        # Return updated aspects
+        aspect_dict = {}
+        pprint(new_aspects)
+        for aspect_id in new_aspects:
+            aspect_name = self.test.Aspect.find_one({'_id': aspect_id})['name']
+            aspect_dict[aspect_name] = new_aspects[aspect_id]
+        return aspect_dict
+
+    def create_user(self, email):
+        """Insert a user into the database if the email does not exist
+
+        Parameters
+        ----------
+        email : str
+            A user's email
+        """
+        aspects = []
+        aspects_cursor = self.test.Aspect.find()
+        for aspect in aspects_cursor:
+            aspects.append({
+                'id': aspect['_id'],
+                'count': 0,
+                'score': 0.0
+            })
+        self.test.User.update(
+            {'email': email},
+            {'$setOnInsert': {
+                    'email': email,
+                    'entries': [],
+                    'aspects': aspects
+                }
+            },
+            upsert=True
+        )
 

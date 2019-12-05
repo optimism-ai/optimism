@@ -1,6 +1,6 @@
 
 from .storage import MongoDB
-from .services import Lister
+from .services import Lister, Adder
 import os
 
 ALGORITHMS = ["RS256"]
@@ -10,4 +10,4 @@ URI = f'mongodb://{os.getenv("OPTIMISM_DB_USER")}:{os.getenv("OPTIMISM_DB_PASSWO
 
 repo = MongoDB(URI)
 lister = Lister(repo)
-
+adder = Adder(repo)

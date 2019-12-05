@@ -32,3 +32,15 @@ class Repository(ABC):
         '''Obtain aspects of a user with a specified aspect and range
         '''
         pass
+
+    @abstractmethod
+    def insert_entry(self):
+        '''Insert a user entry
+        '''
+        pass
+
+    @abstractmethod
+    def create_user(self, email):
+        '''Insert a user
+        '''
+        pass

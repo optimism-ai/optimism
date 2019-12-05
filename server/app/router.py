@@ -12,6 +12,8 @@ import requests
 
 from . import ALGORITHMS, AUTH0_DOMAIN, API_IDENTIFIER
 from . import lister
+from . import adder
+from .storage.models import Factor, Mood, Aspect, Entry
 
 APP = Flask(__name__)
 
@@ -191,6 +193,7 @@ def user_aspects():
         if 'email' not in json_data:
             raise KeyError('request body must follow {"email" : "email@web.com"} format')
         email = json_data['email']
+        adder.register_user(email)
         aspects = lister.get_aspects(email)
         json_aspects = dumps([aspect.__dict__ for aspect in aspects])
         return json_aspects, status.HTTP_200_OK
@@ -245,6 +248,7 @@ def entries_by_aspect_range(aspect, start, end):
         if 'email' not in json_data:
             raise KeyError('request body must follow {"email" : "email@domain.com"} format')
         email = json_data['email']
+        adder.register_user(email)
         entries = lister.get_entries(email, aspect, range(start-1, end-1))
         for i, entry in enumerate(entries):
             entries[i] = entry_to_json(entry)
@@ -298,6 +302,7 @@ def entry_range(start, end):
         if 'email' not in json_data:
             raise KeyError('request body must follow {"email" : "email@domain.com"} format')
         email = json_data['email']
+        adder.register_user(email)
         entries = lister.get_entries(email, range=range(start-1, end-1))
         for i, entry in enumerate(entries):
             entries[i] = entry_to_json(entry)
@@ -317,27 +322,46 @@ def entries():
     ---------------
     Authorization : Bearer token
 
+    Request Body
+    ------------
+    JSON
+        For POST methods, a single json entry in the following format is returned.
+        {
+            "email": EMAIL OF USER,
+            "date": DATE ENTRY ADDED,
+            "mood": MOOD AS A RESULT OF FACTORS,
+            "factors": [ FACTORS THAT CONTRIBUTED TO MOOD ]
+        }
+
     Returns
     -------
-    json_entries : JSON Object
-        For POST methods, a single json entry in the following format is returned.
-            {
-                "date": DATE ENTRY ADDED,
-                "mood": MOOD AS A RESULT OF FACTORS
-                "factors": [ FACTORS THAT CONTRIBUTED TO MOOD ]
-                "aspects": {
-                    [
-                        "score": SCORE OF ASPECT AT THE TIME OF ENTRY
-                        "aspect": ASPECT THE ENTRY AFFECTED
-                    ]
-                }
-            }
+    Returns
+    -------
+    json_data : JSON Object
+        List of entries that are within the range. Each entry has the
+        following format:
+        {
+            "mood1": SCORE1,
+            "mood2": SCORE2
+            ...
+        }
 
     status_code : HTTPS Status Code
-        status.HTTP_200_OK if the GET request is successfully fulfilled.
         status.HTTP_201_CREATED if the POST request has succeeded
     """
-    return {}, status.HTTP_201_CREATED
+    try:
+        json_data = request.get_json()
+        required_fields = ['email', 'date', 'mood', 'factors']
+        if not all([field in json_data for field in required_fields]):
+            raise KeyError('data must contain key values "date", "mood", "factors", "aspects"')
+        email = json_data['email']
+        adder.register_user(email)
+        entry = dict_to_entry(json_data)
+        aspects = adder.insert_entry(email, entry)
+        json_resp = dumps(aspects)
+        return json_resp, status.HTTP_201_CREATED
+    except Exception as e:
+        return {'error': str(e)}, status.HTTP_400_BAD_REQUEST
 
 def entry_to_json(entry):
     factors = []
@@ -346,7 +370,7 @@ def entry_to_json(entry):
         for aspect in factor.get_aspects():
             aspects.append(aspect.__dict__)
         factors.append({
-            'description' : factor.get_description(),
+            'name' : factor.get_name(),
             'aspects' : aspects
         })
     aspects = []
@@ -358,6 +382,15 @@ def entry_to_json(entry):
         'factors': factors,
         'aspects': aspects
     }
+
+def dict_to_entry(entry_dict):
+    factors = []
+    for factor in entry_dict['factors']:
+        factors.append(Factor(name=factor))
+    return Entry(
+        factors=factors,
+        date=entry_dict['date'],
+        mood=Mood(name=entry_dict['mood']))
 
 APP.run()
 
