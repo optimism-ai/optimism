@@ -193,6 +193,7 @@ def user_aspects():
         if 'email' not in json_data:
             raise KeyError('request body must follow {"email" : "email@web.com"} format')
         email = json_data['email']
+        adder.register_user(email)
         aspects = lister.get_aspects(email)
         json_aspects = dumps([aspect.__dict__ for aspect in aspects])
         return json_aspects, status.HTTP_200_OK
@@ -247,6 +248,7 @@ def entries_by_aspect_range(aspect, start, end):
         if 'email' not in json_data:
             raise KeyError('request body must follow {"email" : "email@domain.com"} format')
         email = json_data['email']
+        adder.register_user(email)
         entries = lister.get_entries(email, aspect, range(start-1, end-1))
         for i, entry in enumerate(entries):
             entries[i] = entry_to_json(entry)
@@ -300,6 +302,7 @@ def entry_range(start, end):
         if 'email' not in json_data:
             raise KeyError('request body must follow {"email" : "email@domain.com"} format')
         email = json_data['email']
+        adder.register_user(email)
         entries = lister.get_entries(email, range=range(start-1, end-1))
         for i, entry in enumerate(entries):
             entries[i] = entry_to_json(entry)
@@ -346,21 +349,19 @@ def entries():
     status_code : HTTPS Status Code
         status.HTTP_201_CREATED if the POST request has succeeded
     """
-    # try:
-    json_data = request.get_json()
-    required_fields = ['email', 'date', 'mood', 'factors']
-    if not all([field in json_data for field in required_fields]):
-        raise KeyError('data must contain key values "date", "mood", "factors", "aspects"')
-    email = json_data['email']
-    entry = dict_to_entry(json_data)
-    print(2)
-    aspects = adder.insert_entry(email, entry)
-    print(3)
-    json_resp = dumps(aspects)
-    print(4)
-    return json_resp, status.HTTP_201_CREATED
-    # except Exception as e:
-    #     return {'error': str(e)}, status.HTTP_400_BAD_REQUEST
+    try:
+        json_data = request.get_json()
+        required_fields = ['email', 'date', 'mood', 'factors']
+        if not all([field in json_data for field in required_fields]):
+            raise KeyError('data must contain key values "date", "mood", "factors", "aspects"')
+        email = json_data['email']
+        adder.register_user(email)
+        entry = dict_to_entry(json_data)
+        aspects = adder.insert_entry(email, entry)
+        json_resp = dumps(aspects)
+        return json_resp, status.HTTP_201_CREATED
+    except Exception as e:
+        return {'error': str(e)}, status.HTTP_400_BAD_REQUEST
 
 def entry_to_json(entry):
     factors = []
@@ -389,8 +390,7 @@ def dict_to_entry(entry_dict):
     return Entry(
         factors=factors,
         date=entry_dict['date'],
-        mood=Mood(name=entry_dict['mood'])
-    )
+        mood=Mood(name=entry_dict['mood']))
 
 APP.run()
 

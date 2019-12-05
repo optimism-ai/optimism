@@ -126,3 +126,13 @@ class Adder:
         """
         return self.repo.insert_entry(email, entry)
 
+    def register_user(self, email):
+        """Adds user to db if email does not exist
+
+        Parameters
+        ----------
+        email : str
+            A user's email
+        """
+        return self.repo.create_user(email)
+

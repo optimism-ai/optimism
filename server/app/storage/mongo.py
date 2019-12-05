@@ -64,7 +64,7 @@ class MongoDB(Repository, MongoClient):
         """
         user_aspects = []
         user = self.test.User.find_one({'email': email})
-        for aspect in user['aspect']:
+        for aspect in user['aspects']:
             aspect_info = self.test.Aspect.find_one({'_id': aspect['id']})
             user_aspects.append(
                 UserAspect(
@@ -211,7 +211,7 @@ class MongoDB(Repository, MongoClient):
             List of user's Entry objects
         """
         user = self.test.User.find_one({'email': email})
-        updated_user_aspects = user['aspect']
+        updated_user_aspects = user['aspects']
         mood = self.test.Mood.find_one({'name': entry.get_mood().get_name()})
         mood_weight = mood['weight']
         mood_id = mood['_id']
@@ -262,3 +262,31 @@ class MongoDB(Repository, MongoClient):
             aspect_name = self.test.Aspect.find_one({'_id': aspect_id})['name']
             aspect_dict[aspect_name] = new_aspects[aspect_id]
         return aspect_dict
+
+    def create_user(self, email):
+        """Insert a user into the database if the email does not exist
+
+        Parameters
+        ----------
+        email : str
+            A user's email
+        """
+        aspects = []
+        aspects_cursor = self.test.Aspect.find()
+        for aspect in aspects_cursor:
+            aspects.append({
+                'id': aspect['_id'],
+                'count': 0,
+                'score': 0.0
+            })
+        self.test.User.update(
+            {'email': email},
+            {'$setOnInsert': {
+                    'email': email,
+                    'entries': [],
+                    'aspects': aspects
+                }
+            },
+            upsert=True
+        )
+

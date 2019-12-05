@@ -38,3 +38,9 @@ class Repository(ABC):
         '''Insert a user entry
         '''
         pass
+
+    @abstractmethod
+    def create_user(self, email):
+        '''Insert a user
+        '''
+        pass
