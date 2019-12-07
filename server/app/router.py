@@ -363,6 +363,28 @@ def entries():
     except Exception as e:
         return {'error': str(e)}, status.HTTP_400_BAD_REQUEST
 
+@APP.route("/factors", methods=['GET'])
+@cross_origin(headers=["content-type", "authorization"])
+@requires_auth
+def all_factors():
+    """Accumulates and returns all factors available
+
+    Request Headers
+    ---------------
+    Authorization : Bearer token
+
+    Returns
+    -------
+    json_factors : JSON Object
+        List of the factor names
+
+    status.HTTP_200_OK
+        All factor names were aquired
+    """
+    factors = lister.get_factors()
+    json_factors = dumps([factor.get_name() for factor in factors])
+    return json_factors, status.HTTP_200_OK
+
 def entry_to_json(entry):
     factors = []
     for factor in entry.get_factors():

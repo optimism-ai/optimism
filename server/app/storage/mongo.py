@@ -35,6 +35,20 @@ class MongoDB(Repository, MongoClient):
             moods.append(Mood(name=mood['name'], weight=mood['weight']))
         return moods
 
+    def get_factors(self):
+        '''Get list of factors from database
+
+        Returns
+        -------
+        factors : list
+            List of Factor objects
+        '''
+        factors = []
+        factor_cursor = self.test.Factor.find()
+        for factor in factor_cursor:
+            factors.append(Factor(name=factor['name']))
+        return factors
+
     def get_aspects(self):
         '''Get list of aspects 
 

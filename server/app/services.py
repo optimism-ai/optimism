@@ -41,6 +41,17 @@ class Lister:
         moods = self.repo.get_moods()
         return moods
 
+    def get_factors(self):
+        """Obtain all Factor objects
+
+        Returns
+        -------
+        factors : list
+            List of all Factor objects in the system
+        """
+        factors = self.repo.get_factors()
+        return factors
+
     def get_aspects(self, email=None):
         """Obtain all Aspects objects
 
