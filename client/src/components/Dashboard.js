@@ -21,7 +21,7 @@ const Dashboard = () => {
         try {
             const token = await getTokenSilently();
 
-            const response = await fetch("/private/moods/all", {
+            const response = await fetch("/moods", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -30,7 +30,7 @@ const Dashboard = () => {
             const responseData = await response.json();
 
             setShowResult(true);
-            setApiMessage(responseData);
+            setApiMessage(responseData[0]["name"]);
         } catch (error) {
             console.error(error);
         }
@@ -113,7 +113,7 @@ const Dashboard = () => {
         </div>
         </>
       )}
-        {showResult && <code>{JSON.stringify(apiMessage, null, 2)}</code>}
+        {showResult && <code>{JSON.stringify(apiMessage)}</code>}
       </div>
     );
 }
