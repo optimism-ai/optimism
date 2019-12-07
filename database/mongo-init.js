@@ -9,13 +9,13 @@ db.createCollection(
         validator: { 
             $jsonSchema: {
                 bsonType: "object",
-                required: [ "name", "level" ],
+                required: [ "name", "weight" ],
                 properties: {
                     name: {
                         bsonType: "string",
                         description: "name of mood"
                     },
-                    level: {
+                    weight: {
                         bsonType: "int",
                         description: "how the mood impacts aspects"
                     }
@@ -55,13 +55,13 @@ db.createCollection(
         validator: { 
             $jsonSchema: {
                 bsonType: "object",
-                required: [ "description", "affect" ],
+                required: [ "name", "aspectIDs" ],
                 properties: {
-                    description: {
+                    name: {
                         bsonType: "string",
-                        description: "description of factor"
+                        description: "name of factor"
                     },
-                    affect: {
+                    aspectIDs: {
                         bsonType: "array",
                         items: {
                             bsonType: "objectId"
@@ -81,29 +81,17 @@ db.createCollection(
         validator: { 
             $jsonSchema: {
                 bsonType: "object",
-                required: [ "firstName", "lastName", "password", "email"],
+                required: [ "email" ],
                 properties: {
-                    firstName: {
-                        bsonType: "string",
-                        description: "first name of the user"
-                    },
-                    lastName: {
-                        bsonType: "string",
-                        description: "last name of the user"
-                    },
-                    password: {
-                        bsonType: "string",
-                        description: "password of the user"
-                    },
                     email: {
                         bsonType: "string",
                         description: "email of the user"
                     },
-                    entry: {
+                    entries: {
                         bsonType: [ "array" ],
                         items: {
                             bsonType: "object",
-                            required: [ "dateAdded", "moodID", "factor"],
+                            required: [ "dateAdded", "moodID", "factorIDs" ],
                             properties: {
                                 dateAdded: {
                                     bsonType: "date",
@@ -113,17 +101,34 @@ db.createCollection(
                                     bsonType: "objectId",
                                     description: "mood id that was assocaited with the entry"
                                 },
-                                factor: {
-                                    bsonType: "array",
+                                factorIDs: {
+                                    bsonType: [ "array" ],
                                     items: {
                                         bsonType: "objectId"
                                     },
                                     description: "factor id's that were associated with the entry"
+                                },
+                                aspects: {
+                                    bsonType: [ "array" ],
+                                    items: {
+                                        bsonType: "object",
+                                        required: [ "aspectID", "score" ],
+                                        properties: {
+                                            aspectID: {
+                                                bsonType: "objectId",
+                                                description: "aspect id's that were impacted by the entry"
+                                            },
+                                            score: {
+                                                bsonType: "double",
+                                                description: "aspect score at the time of the entry"
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
                     },
-                    aspect: {
+                    aspects: {
                         bsonType: [ "array" ],
                         items: {
                             bsonType: "object",
@@ -150,105 +155,183 @@ db.createCollection(
     }
 );
 
-db.createCollection(
-    "AspectLog",
-    {
-        autoIndexId: true,
-        validator: { 
-            $jsonSchema: {
-                bsonType: "object",
-                required: [ "userID", "aspect" ],
-                properties: {
-                    userID: {
-                        bsonType: "objectId",
-                        description: "ID of associated user"
-                    },
-                    aspect: {
-                        bsonType: "array",
-                        items: {
-                            bsonType: "object",
-                            required: [ "score", "dateAdded", "factorID" ],
-                            properties: {
-                                score: {
-                                    bsonType: "double",
-                                    description: "aspect score at the given date"
-                                },
-                                dateAdded: {
-                                    bsonType: "date",
-                                    description: "date the aspect was influenced"
-                                },
-                                factorID: {
-                                    bsonType: "array",
-                                    items: {
-                                        bsonType: "objectId"
-                                    },
-                                    description: "factor ID's associated with the aspect update"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-);
-
 
 //
 // SAMPLE DATA
 //
 db.Mood.insertOne(
     {
-        name: "mood name",
-        level: NumberInt(0)
+        name: "awful",
+        weight: NumberInt(-2)
+    }
+)
+db.Mood.insertOne(
+    {
+        name: "sad",
+        weight: NumberInt(-1)
+    }
+)
+db.Mood.insertOne(
+    {
+        name: "alright",
+        weight: NumberInt(0)
+    }
+)
+db.Mood.insertOne(
+    {
+        name: "good",
+        weight: NumberInt(1)
+    }
+)
+db.Mood.insertOne(
+    {
+        name: "awesome",
+        weight: NumberInt(2)
     }
 )
 
 db.Aspect.insertOne(
     {
-        name: "aspect name",
-        description: "aspect description"
+        name: "Work",
+        description: "How your work life contributes to your general mood"
+    }
+)
+db.Aspect.insertOne(
+    {
+        name: "Mental",
+        description: "Mental stability contributes greatly to your general mood"
+    }
+)
+db.Aspect.insertOne(
+    {
+        name: "Learning",
+        description: "Introduction to new knowledge whether it is in school or self-taught skills can be beneficial to your mood"
+    }
+)
+db.Aspect.insertOne(
+    {
+        name: "Health",
+        description: "How your overall physical health can alter the way you feel"
+    }
+)
+db.Aspect.insertOne(
+    {
+        name: "Media",
+        description: "The amount of time spent on social media can help or hinder your mood"
+    }
+)
+db.Aspect.insertOne(
+    {
+        name: "Social",
+        description: "How your personal relationships with other can affect your feelings"
     }
 )
 
 db.Factor.insertOne(
     {
-        description: "factor description",
-        affect: [ db.Aspect.find()[0]["_id"] ]
+        name: "Late for work",
+        aspectIDs: [ db.Aspect.find()[0]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Staff meeting",
+        aspectIDs: [ db.Aspect.find()[0]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Sleep",
+        aspectIDs: [ db.Aspect.find()[1]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Relax",
+        aspectIDs: [ db.Aspect.find()[1]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Homework",
+        aspectIDs: [ db.Aspect.find()[2]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Class",
+        aspectIDs: [ db.Aspect.find()[2]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Work out",
+        aspectIDs: [ db.Aspect.find()[3]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Eat food",
+        aspectIDs: [ db.Aspect.find()[3]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Watch movies",
+        aspectIDs: [ db.Aspect.find()[4]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Listen to music",
+        aspectIDs: [ db.Aspect.find()[4]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Time with family/friends ",
+        aspectIDs: [ db.Aspect.find()[5]["_id"] ]
+    }
+)
+
+db.Factor.insertOne(
+    {
+        name: "Party",
+        aspectIDs: [ db.Aspect.find()[5]["_id"] ]
     }
 )
 
 db.User.insertOne(
     {
-        firstName: "bob",
-        lastName: "tran",
-        password: "password",
         email: "bobtran@bobtran.com",
-        entry: [
+        entries: [
             {
                 dateAdded: new Date(),
                 moodID: db.Mood.find()[0]["_id"],
-                factor: [ db.Factor.find()[0]["_id"] ]
+                factorIDs: [ db.Factor.find()[0]["_id"] ],
+                aspects: [
+                    {
+                        aspectID: db.Aspect.find()[0]["_id"],
+                        score: 0
+                    }
+                ]
             }
         ],
-        aspect: [
+        aspects: [
             {
                 id: db.Aspect.find()[0]["_id"],
                 count: NumberInt(1),
                 score: 0
-            }
-        ]
-    }
-)
-
-db.AspectLog.insertOne(
-    {
-        userID: db.User.find()[0]["_id"],
-        aspect: [
-            {
-                score: 0,
-                dateAdded: new Date(),
-                factorID: [ db.User.find()[0]["_id"] ]
             }
         ]
     }
