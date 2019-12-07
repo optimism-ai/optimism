@@ -13,43 +13,43 @@ const FactorSelection = () => {
             <div className="factorChoices">
                     <label className="options">
                         <input type = "checkbox" value="option1" />
-                            Factor
+                            Exercise
                     </label>
                     <label className="options">
                         <input type = "checkbox" value="option2" />
-                            Factor
+                            Sleep Well
                     </label>
                     <label className="options">
                         <input type = "checkbox" value="option3" />
-                            Factor
+                            No Sleep
                     </label>
                     <label className="options">
                         <input type = "checkbox" value="option4" />
-                            Factor
+                            Work
                     </label>
                     <label className = "options">
                         <input type = "checkbox" value="option5" />
-                            Factor
+                            Hang out with Friends
                     </label>
                     <label className="options">
                         <input type = "checkbox" value="option1" />
-                            Factor
+                            Played Video Games
                     </label>
                     <label className="options">
                         <input type = "checkbox" value="option2" />
-                            Factor
+                            Stuck in Traffic
                     </label>
                     <label className="options">
                         <input type = "checkbox" value="option3" />
-                            Factor
+                            Watched a show or movie
                     </label>
                     <label className="options">
                         <input type = "checkbox" value="option4" />
-                            Factor
+                            Act 1
                     </label>
                     <label className = "options">
                         <input type = "checkbox" value="option5" />
-                            Factor
+                            Act 2
                     </label>
             </div>
             <footer className="buttonFooter">
