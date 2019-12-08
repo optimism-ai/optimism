@@ -7,8 +7,8 @@ import {Link} from "react-router-dom";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const Dashboard = () => {
-    const [showResult, setShowResult] = useState(false);
-    const [apiMessage, setApiMessage] = useState("");
+    const [showAspects, setShowAspects] = useState(false);
+    const [aspectsData, setAspectsData] = useState("");
 
     const { isAuthenticated, loading, getTokenSilently, user } = useAuth0();
     if (loading || !user) {
@@ -21,48 +21,74 @@ const Dashboard = () => {
         try {
             const token = await getTokenSilently();
 
-            const response = await fetch("/moods", {
+            const response = await fetch("/aspects/" + user.email, {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
+                },
             });
 
             const responseData = await response.json();
 
-            setShowResult(true);
-            setApiMessage(responseData[0]["name"]);
+            setShowAspects(true);
+            setAspectsData(responseData);
         } catch (error) {
             console.error(error);
         }
     };
 
-    callApi()
+    if (user && !showAspects) {
+        callApi()
+    }
 
     const options = {
-      animationEnabled: true,
-      axisX: {
-        gridThickness: 0,
-        tickThickness: 0,
-        lineThickness: 0,
-      },
-      axisY: {
-        gridThickness: 0,
-        tickThickness: 0,
-        lineThickness: 0,
-        labelFontSize: 0,
-      },
-      data: [{
-        type: "bar",
-        dataPoints: [
-          { y: 5, label: "Work"},
-          { y: 7, label: "Learning"},
-          { y: 2, label: "Health"},
-          { y: 8, label: "Social"},
-          { y: 10, label: "Media"},
-          { y: 6, label: "Mental"},
-        ]
-      }]
+        animationEnabled: true,
+        axisX: {
+            gridThickness: 0,
+            tickThickness: 0,
+            lineThickness: 0,
+        },
+        axisY: {
+            gridThickness: 0,
+            tickThickness: 0,
+            lineThickness: 0,
+            labelFontSize: 0,
+        },
+        data: [{
+            type: "bar",
+            dataPoints:[ 
+                { y: 5, label: "Work"},
+                { y: 7, label: "Learning"},
+                { y: 2, label: "Health"},
+                { y: 8, label: "Social"},
+                { y: 10, label: "Media"},
+                { y: 6, label: "Mental"},
+            ]
+        }]
     }
+
+    // if (showResult) {
+    //     apiMessage.y = apiMessage.score
+    //     apiMessage.label = apiMessage.name
+    //     delete apiMessage.description
+    //     options = {
+    //         animationEnabled: true,
+    //         axisX: {
+    //             gridThickness: 0,
+    //             tickThickness: 0,
+    //             lineThickness: 0,
+    //         },
+    //         axisY: {
+    //             gridThickness: 0,
+    //             tickThickness: 0,
+    //             lineThickness: 0,
+    //             labelFontSize: 0,
+    //         },
+    //         data: [{
+    //             type: "bar",
+    //             dataPoints: apiMessage
+    //         }]
+    //     }
+    // }
 
     return (
       <div>
@@ -113,7 +139,7 @@ const Dashboard = () => {
         </div>
         </>
       )}
-        {showResult && <code>{JSON.stringify(apiMessage)}</code>}
+        {showAspects && <code>{JSON.stringify(aspectsData, null, 2)}</code>}
       </div>
     );
 }
