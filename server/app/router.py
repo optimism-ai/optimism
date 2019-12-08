@@ -9,6 +9,7 @@ from flask_cors import cross_origin
 from flask_api import status
 from jose import jwt
 import requests
+import http.client
 
 from . import ALGORITHMS, AUTH0_DOMAIN, API_IDENTIFIER
 from . import lister
@@ -116,7 +117,7 @@ def requires_auth(f):
                         "description": "Unable to find appropriate key"}, 401)
     return decorated
 
-@APP.route("/moods", methods=['GET'])
+@APP.route("/moods/all", methods=['GET'])
 @cross_origin(headers=["content-type", "authorization"])
 @requires_auth
 def moods():
@@ -164,21 +165,20 @@ def all_aspects():
     except Exception as e:
         return {'error': str(e)}, status.HTTP_400_BAD_REQUEST
 
-@APP.route("/aspects", methods=['GET'])
+@APP.route("/aspects/<string:email>", methods=['GET'])
 @cross_origin(headers=["content-type", "authorization"])
 @requires_auth
-def user_aspects():
+def user_aspects(email):
     """Accumulates aspects and their associated scores of a particular user.
 
     Request Headers
     ---------------
     Authorization : Bearer token
 
-    Request Body
-    ------------
-    JSON
-        Key value pair where the key is 'email' and the value is the 
-        email of the requestor
+    Request Arguments
+    -----------------
+    email: str
+        Email of user
 
     Returns
     -------
@@ -189,10 +189,6 @@ def user_aspects():
         All aspects were aquired
     """
     try:
-        json_data = request.get_json()
-        if 'email' not in json_data:
-            raise KeyError('request body must follow {"email" : "email@web.com"} format')
-        email = json_data['email']
         adder.register_user(email)
         aspects = lister.get_aspects(email)
         json_aspects = dumps([aspect.__dict__ for aspect in aspects])
@@ -200,24 +196,20 @@ def user_aspects():
     except Exception as e:
         return {'error': str(e)}, status.HTTP_400_BAD_REQUEST
 
-@APP.route("/entries/<string:aspect>/<int:start>-<int:end>", methods=['GET'])
+@APP.route("/entries/<string:email>/<string:aspect>/<int:start>-<int:end>", methods=['GET'])
 @cross_origin(headers=["content-type", "authorization"])
 @requires_auth
-def entries_by_aspect_range(aspect, start, end):
+def entries_by_aspect_range(email, aspect, start, end):
     """Returns JSON of weekly entries that affected a particular aspect
 
     Request Headers
     ---------------
     Authorization : Bearer token
 
-    Request Body
-    ------------
-    JSON
-        Key value pair where the key is 'email' and the value is the 
-        email of the requestor
-
     Request Arguments
     -----------------
+    email: str
+        Email of user
     aspect : str
         Aspect that the entries will be filtered by
     start : int
@@ -244,10 +236,6 @@ def entries_by_aspect_range(aspect, start, end):
         All entries associated with the aspect were aquired
     """
     try:
-        json_data = request.get_json()
-        if 'email' not in json_data:
-            raise KeyError('request body must follow {"email" : "email@domain.com"} format')
-        email = json_data['email']
         adder.register_user(email)
         entries = lister.get_entries(email, aspect, range(start-1, end-1))
         for i, entry in enumerate(entries):
@@ -256,24 +244,20 @@ def entries_by_aspect_range(aspect, start, end):
     except Exception as e:
         return {'error': str(e)}, status.HTTP_400_BAD_REQUEST
 
-@APP.route("/entries/<int:start>-<int:end>", methods=['GET'])
+@APP.route("/entries/<string:email>/<int:start>-<int:end>", methods=['GET'])
 @cross_origin(headers=["content-type", "authorization"])
 @requires_auth
-def entry_range(start, end):
+def entry_range(email, start, end):
     """Returns JSON of entries ranging from [start, end]
 
     Request Headers
     ---------------
     Authorization : Bearer token
 
-    Request Body
-    ------------
-    JSON
-        Key value pair where the key is 'email' and the value is the 
-        email of the requestor
-
     Request Arguments
     -----------------
+    email: str
+        Email of user
     start : int
         Index of starting entry
     end : int
@@ -298,10 +282,6 @@ def entry_range(start, end):
         All entries within the range are aquired
     """
     try:
-        json_data = request.get_json()
-        if 'email' not in json_data:
-            raise KeyError('request body must follow {"email" : "email@domain.com"} format')
-        email = json_data['email']
         adder.register_user(email)
         entries = lister.get_entries(email, range=range(start-1, end-1))
         for i, entry in enumerate(entries):
