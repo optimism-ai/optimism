@@ -6,9 +6,13 @@ import CanvasJSReact from './canvasjs.react.js';
 import {Link} from "react-router-dom";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
+function scaleBetween(unscaledNum, minAllowed, maxAllowed, min, max) {
+    return (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed;
+}
+
 const Dashboard = () => {
     const [showAspects, setShowAspects] = useState(false);
-    const [aspectsData, setAspectsData] = useState("");
+    const [aspectsData, setAspectsData] = useState([]);
 
     const { isAuthenticated, loading, getTokenSilently, user } = useAuth0();
     if (loading || !user) {
@@ -29,6 +33,13 @@ const Dashboard = () => {
 
             const responseData = await response.json();
 
+            for (var i = 0; i < responseData.length; i++) {
+                responseData[i].y = scaleBetween(responseData[i].score, 0, 10, -2, 2)
+                responseData[i].label = responseData[i].name
+                delete responseData[i].name
+                delete responseData[i].score
+                delete responseData[i].description
+            }
             setShowAspects(true);
             setAspectsData(responseData);
         } catch (error) {
@@ -52,43 +63,13 @@ const Dashboard = () => {
             tickThickness: 0,
             lineThickness: 0,
             labelFontSize: 0,
+            maximum: 10
         },
         data: [{
             type: "bar",
-            dataPoints:[ 
-                { y: 5, label: "Work"},
-                { y: 7, label: "Learning"},
-                { y: 2, label: "Health"},
-                { y: 8, label: "Social"},
-                { y: 10, label: "Media"},
-                { y: 6, label: "Mental"},
-            ]
+            dataPoints: aspectsData
         }]
     }
-
-    // if (showResult) {
-    //     apiMessage.y = apiMessage.score
-    //     apiMessage.label = apiMessage.name
-    //     delete apiMessage.description
-    //     options = {
-    //         animationEnabled: true,
-    //         axisX: {
-    //             gridThickness: 0,
-    //             tickThickness: 0,
-    //             lineThickness: 0,
-    //         },
-    //         axisY: {
-    //             gridThickness: 0,
-    //             tickThickness: 0,
-    //             lineThickness: 0,
-    //             labelFontSize: 0,
-    //         },
-    //         data: [{
-    //             type: "bar",
-    //             dataPoints: apiMessage
-    //         }]
-    //     }
-    // }
 
     return (
       <div>
@@ -139,7 +120,6 @@ const Dashboard = () => {
         </div>
         </>
       )}
-        {showAspects && <code>{JSON.stringify(aspectsData, null, 2)}</code>}
       </div>
     );
 }
