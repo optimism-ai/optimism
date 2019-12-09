@@ -4,11 +4,30 @@ import { useAuth0 } from "../react-auth0-wrapper";
 import "./dashboard.css";
 import CanvasJSReact from './canvasjs.react.js';
 import {Link} from "react-router-dom";
+import {Pager, Container, Row, Col, Media, Button, ButtonGroup, Grid, Panel} from 'react-bootstrap';
+import Awful from "./images/awful.png"
+import Sad from "./images/sad.png"
+import Alright from "./images/alright.png"
+import Good from "./images/good.png"
+import Awesome from "./images/awesome.png"
+
+const images = {
+    'awful' : Awful,
+    'sad' : Sad,
+    'alright' : Alright,
+    'good' : Good,
+    'awesome' : Awesome
+}
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+function scaleBetween(unscaledNum, minAllowed, maxAllowed, min, max) {
+    return (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed;
+}
 
 const Dashboard = () => {
-    const [showResult, setShowResult] = useState(false);
-    const [apiMessage, setApiMessage] = useState("");
+    const [showAspects, setShowAspects] = useState(false);
+    const [aspectsData, setAspectsData] = useState([]);
+    const [showEntries, setShowEntries] = useState(false);
+    const [entriesData, setEntriesData] = useState([]);
 
     const { isAuthenticated, loading, getTokenSilently, user } = useAuth0();
     if (loading || !user) {
@@ -17,103 +36,150 @@ const Dashboard = () => {
         );
     }
 
-    const callApi = async () => {
+    const callAspectsApi = async () => {
         try {
             const token = await getTokenSilently();
 
-            const response = await fetch("/private/moods/all", {
+            const response = await fetch("/aspects/" + user.email, {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
+                },
             });
 
             const responseData = await response.json();
 
-            setShowResult(true);
-            setApiMessage(responseData);
+            for (var i = 0; i < responseData.length; i++) {
+                responseData[i].y = scaleBetween(responseData[i].score, 0, 10, -2, 2)
+                responseData[i].label = responseData[i].name
+                delete responseData[i].name
+                delete responseData[i].score
+                delete responseData[i].description
+            }
+            setShowAspects(true);
+            setAspectsData(responseData);
         } catch (error) {
             console.error(error);
         }
     };
 
-    callApi()
+    const callEntriesApi = async () => {
+        try {
+            const token = await getTokenSilently();
+
+            const response = await fetch("/entries/" + user.email + "/1-6", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+
+            const responseData = await response.json();
+
+            setShowEntries(true);
+            setEntriesData(responseData);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    if (user && !showAspects) {
+        callAspectsApi()
+        callEntriesApi()
+    }
+
+    if (showEntries) {
+        var entriesList = entriesData.map((d) =>
+            <Media>
+                <Media.Left>
+                    <img
+                        width={50}
+                        height={50}
+                        className="mr-3"
+                        src={images[d.mood.name]}
+                        alt={d.mood.name}
+                    />
+                </Media.Left>
+                <Media.Body>
+                    <h5>{new Date(d.date['$date']).toString()}</h5>
+                    <p>
+                        <ButtonGroup>{d.factors.map((f) => <Button>{f.name}</Button>)}</ButtonGroup>
+                    </p>
+                </Media.Body>
+            </Media>
+        );
+    }
 
     const options = {
-      animationEnabled: true,
-      axisX: {
-        gridThickness: 0,
-        tickThickness: 0,
-        lineThickness: 0,
-      },
-      axisY: {
-        gridThickness: 0,
-        tickThickness: 0,
-        lineThickness: 0,
-        labelFontSize: 0,
-      },
-      data: [{
-        type: "bar",
-        dataPoints: [
-          { y: 5, label: "Work"},
-          { y: 7, label: "Learning"},
-          { y: 2, label: "Health"},
-          { y: 8, label: "Social"},
-          { y: 10, label: "Media"},
-          { y: 6, label: "Mental"},
-        ]
-      }]
+        animationEnabled: true,
+        axisX: {
+            gridThickness: 0,
+            tickThickness: 0,
+            lineThickness: 0,
+        },
+        axisY: {
+            gridThickness: 0,
+            tickThickness: 0,
+            lineThickness: 0,
+            labelFontSize: 0,
+            maximum: 10
+        },
+        data: [{
+            type: "bar",
+            dataPoints: aspectsData
+        }]
     }
 
     return (
       <div>
       {isAuthenticated && (
       <>
-        <div className="userInfo">
-          <div>
-            <img className="userPic" src={user.picture} />
+        <div classname='mt-5'>
+        <Grid fluid>
+          <Row>
+            <Col sm={6} md={6}>
+                <Panel>
+                    <Panel.Heading>
+                        <Panel.Title componentClass="h3">Summary</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body>
+                        <center>
+                            <img className="userPic" src={user.picture} />
+                                <h2 className="usrName">{user.name}</h2>
+                            <p>
+                            <Link to="/aspecthistory">Aspect History</Link>
+                            </p>
+                        </center>
+                        <CanvasJSChart options = {options} />
+                    </Panel.Body>
+                </Panel>
+            </Col>
+            <Col sm={6} md={6}>
+                <Panel>
+                    <Panel.Heading>
+                        <Panel.Title componentClass="h3">Recent Surveys</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body>
+                        {showEntries && (
+                        <>
+                            {entriesList}
+                        </>
+                        )}
+                        <Pager>
+                            <Pager.Item previous href="#">
+                                &larr; Previous Page
+                            </Pager.Item>
+                            <Button> <Link to="/moodselection">New Survey</Link> </Button>
+                            <Pager.Item next href="#">
+                                Next Page &rarr;
+                            </Pager.Item>
+                        </Pager>
+                    </Panel.Body>
+                </Panel>
+            </Col>
+            </Row>
+          </Grid>
           </div>
-          <div>
-            <h2 className="usrName">{user.name}</h2>
-          </div>
-          <div className="doSurvey">
-            <Link to="/survey">Do Survey</Link>
-          </div>
-          <div className="aspectHistory">
-            <Link to="/aspecthistory">Aspect History</Link>
-          </div>
-        </div>
-        <div className="container">
-          <div className="aspectInfo">
-            <CanvasJSChart options = {options} />
-          </div>
-          <div className="moodInfo">
-            <div className="moodModule">
-              <h5 className='moodHeading'>Mood 1</h5>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                 totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                 sunt explicabo. Nemo enim ipsam voluptatem</p>
-            </div>
-            <div className="moodModule">
-              <h5 className='moodHeading'>Mood 2</h5>
-              <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                sunt explicabo. Nemo enim ipsam voluptatem
-              </p>
-            </div>
-            <div className="moodModule">
-              <h5 className='moodHeading'>Mood 3</h5>
-              <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
-                sunt explicabo. Nemo enim ipsam voluptatem  
-              </p>
-            </div>
-          </div>
-        </div>
         </>
       )}
-        {showResult && <code>{JSON.stringify(apiMessage, null, 2)}</code>}
       </div>
     );
 }
