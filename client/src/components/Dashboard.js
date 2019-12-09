@@ -76,7 +76,7 @@ const Dashboard = () => {
             <h2 className="usrName">{user.name}</h2>
           </div>
           <div className="doSurvey">
-            <Link to="/moodselection">Do Survey</Link>
+            <Link to="/survey">Do Survey</Link>
           </div>
           <div className="aspectHistory">
             <Link to="/aspecthistory">Aspect History</Link>
