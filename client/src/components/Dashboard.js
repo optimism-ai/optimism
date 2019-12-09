@@ -181,7 +181,7 @@ const Dashboard = () => {
                             <Pager.Item previous href="#" onClick={prevEntries}>
                                 &larr; Previous Page
                             </Pager.Item>
-                            <Button> <Link to="/moodselection">New Survey</Link> </Button>
+                            <Button> <Link to="/survey">New Survey</Link> </Button>
                             <Pager.Item next href="#" onClick={nextEntries}>
                                 Next Page &rarr;
                             </Pager.Item>

@@ -29,3 +29,15 @@ body {
     margin-left: 30px;
     margin-right: 30px;
 }
+
+.factorChoices {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.factorCol{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}

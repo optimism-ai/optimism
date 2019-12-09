@@ -6,8 +6,7 @@ import Profile from "./components/Profile";
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
-import MoodSelection from "./components/moodSelection";
-import FactorSelection from "./components/factorSelection";
+import Survey from "./components/survey";
 import SurveySummary from "./components/surveySummary"
 import AspectHistory from './components/aspectHistory';
 
@@ -22,8 +21,7 @@ function App() {
                 <Route path="/" exact component={Home}/>
                 <PrivateRoute path="/profile" component={Profile} />
                 <PrivateRoute path="/dashboard" component={Dashboard} />
-                <PrivateRoute path="/moodselection" component={MoodSelection} />
-                <PrivateRoute path="/factorselection" component={FactorSelection} />
+                <PrivateRoute path="/survey" component={Survey} />
                 <PrivateRoute path="/surveysummary" component={SurveySummary} />
                 <PrivateRoute path="/aspecthistory" component={AspectHistory} />
             </Switch>
