@@ -167,7 +167,7 @@ const Dashboard = () => {
                             <Pager.Item previous href="#">
                                 &larr; Previous Page
                             </Pager.Item>
-                            <Button> <Link to="/moodselection">New Survey</Link> </Button>
+                            <Button> <Link to="/survey">New Survey</Link> </Button>
                             <Pager.Item next href="#">
                                 Next Page &rarr;
                             </Pager.Item>
