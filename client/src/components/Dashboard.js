@@ -28,6 +28,8 @@ const Dashboard = () => {
     const [aspectsData, setAspectsData] = useState([]);
     const [showEntries, setShowEntries] = useState(false);
     const [entriesData, setEntriesData] = useState([]);
+    var start = 1
+    var end = 6
 
     const { isAuthenticated, loading, getTokenSilently, user } = useAuth0();
     if (loading || !user) {
@@ -66,12 +68,11 @@ const Dashboard = () => {
         try {
             const token = await getTokenSilently();
 
-            const response = await fetch("/entries/" + user.email + "/1-6", {
+            const response = await fetch("/entries/" + user.email + "/" + start.toString() + "-" + end.toString(), {
                 headers: {
                     Authorization: `Bearer ${token}`
                 },
             });
-
             const responseData = await response.json();
 
             setShowEntries(true);
@@ -83,6 +84,19 @@ const Dashboard = () => {
 
     if (user && !showAspects) {
         callAspectsApi()
+        callEntriesApi()
+    }
+
+    function nextEntries() {
+        start += 5
+        end += 5
+        callEntriesApi()
+    }
+    function prevEntries() {
+        if (start > 1) {
+            start -= 5
+            end -= 5
+        }
         callEntriesApi()
     }
 
@@ -164,11 +178,11 @@ const Dashboard = () => {
                         </>
                         )}
                         <Pager>
-                            <Pager.Item previous href="#">
+                            <Pager.Item previous href="#" onClick={prevEntries}>
                                 &larr; Previous Page
                             </Pager.Item>
                             <Button> <Link to="/moodselection">New Survey</Link> </Button>
-                            <Pager.Item next href="#">
+                            <Pager.Item next href="#" onClick={nextEntries}>
                                 Next Page &rarr;
                             </Pager.Item>
                         </Pager>
