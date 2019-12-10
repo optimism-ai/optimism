@@ -173,7 +173,7 @@ class MongoDB(Repository, MongoClient):
         try:
             it = iter(range_)
             count = 0
-            for entry in user['entries']:
+            for entry in reversed(user['entries']):
                 if not begin:
                     if count == range_.start:
                         begin = True
@@ -264,14 +264,11 @@ class MongoDB(Repository, MongoClient):
             'factorIDs': factor_ids,
             'aspects': aspects
         }
-        pprint(new_entry)
-        pprint(updated_user_aspects)
         self.test.User.update_one({'email': email}, {'$push': {'entries': new_entry}}, upsert=True)
         # Update User aspects
         self.test.User.update_one({'email': email}, {'$set': {'aspects': updated_user_aspects}})
         # Return updated aspects
         aspect_dict = {}
-        pprint(new_aspects)
         for aspect_id in new_aspects:
             aspect_name = self.test.Aspect.find_one({'_id': aspect_id})['name']
             aspect_dict[aspect_name] = new_aspects[aspect_id]
