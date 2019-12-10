@@ -1,156 +1,189 @@
-import React, {Component} from "react";
-import {Button} from"react-bootstrap";
+import React, { useState } from "react";
+import {Row, Col, Pager, Form, ControlLabel, FormControl, Button, FormGroup, Radio} from"react-bootstrap";
 import "./survey.css";
+import { useAuth0 } from "../react-auth0-wrapper";
+import { Redirect } from 'react-router-dom'
 
-class survey extends Component {
-    constructor(){
-        super();
+import Awful from "./images/awful.png"
+import Sad from "./images/sad.png"
+import Alright from "./images/alright.png"
+import Good from "./images/good.png"
+import Awesome from "./images/awesome.png"
 
-        this.state = {
-            moods: "awful",
-            factors: "Sleep"
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+const Survey = () => {
+    const [showEntries, setShowEntries] = useState(false);
+    const [entriesData, setEntriesData] = useState([]);
+    const [moodsData, setMoodsData] = useState([]);
+    const [showMoods, setShowMoods] = useState(false);
+    const [showFactors, setShowFactors] = useState(false);
+    const [factorsData, setFactorsData] = useState([]);
+    const [formFactorsData, setFormFactorsData] = useState([]);
+    const [formMoodsData, setFormMoodsData] = useState([]);
+    const [redirect, setRedirect] = useState(false);
 
-    handleChange(event) {
-
-        this.setState({
-            mood: event.target.value,
-            factors: event.target.value
-        });
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-
-        alert('You chose the ' + this.state.mood + ' and ' + this.state.factors)
-    }
-
-    render() {
+    const { isAuthenticated, loading, getTokenSilently, user } = useAuth0();
+    if (loading || !user) {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                <div className="heading">
-                    <h1 className="pageTitle">
-                        How Are You Feeling Today?
-                    </h1>
-                </div>
-                <div className="moodChoices">
-                    <label className="options">
-                        <input
-                            type = "radio"
-                            value = "awful"
-                            checked={this.state.mood === "awful"}
-                            onChange = {this.handleChange}
-                        />
-                        Awful
-                    </label>
-                    <label className="options">
-                        <input
-                            type = "radio"
-                            value = "sad"
-                            checked={this.state.mood ==="sad"}
-                            onChange = {this.handleChange}
-                        />
-                        Sad
-                    </label>
-                    <label className="options">
-                        <input
-                            type = "radio"
-                            value = "alright"
-                            checked={this.state.mood === "alright"}
-                            onChange = {this.handleChange}
-                        />
-                        Alright
-                    </label>
-                    <label className="options">
-                        <input
-                            type = "radio"
-                            value = "good"
-                            checked={this.state.mood === "good"}
-                            onChange= {this.handleChange}
-                        />
-                        Happy
-                    </label>
-                    <label className="options">
-                        <input
-                            type = "radio"
-                            value = "good"
-                            checked={this.state.mood === "good"}
-                            onChange = {this.handleChange}
-                        />
-                        Ecstatic
-                    </label>
-                </div>
-                <div className="heading">
-                    <h1 className="pageTitle">
-                        What did you do today?
-                    </h1>
-                </div>
-                <div className = "factorChoices">
-                    <div className = "factorCol">
-                        <label className="options">
-                            <input type = "checkbox" value={this.state.factors}/>
-                                Late for work
-                        </label>
-                        <label className="options">
-                            <input type = "checkbox" value="Staff meeting" />
-                                Staff meeting
-                        </label>
-                        <label className="options">
-                            <input type = "checkbox" value="Sleep" />
-                                Sleep
-                        </label>
-                        <label className = "options">
-                            <input type = "checkbox" value="Relax" />
-                                Relax
-                        </label>
-                        <label className="options">
-                            <input type = "checkbox" value="Homework" />
-                                Homework
-                        </label>
-                        <label className="options">
-                            <input type="checkbox" value="Party" />
-                                Party
-                        </label>
-                    </div>
-                    <div className = "factorCol">
-                        <label className="options">
-                            <input type = "checkbox" value="Class" />
-                                Class
-                        </label>
-                        <label className="options">
-                            <input type = "checkbox" value="Work out" />
-                                Work Out
-                        </label>
-                        <label className="options">
-                            <input type = "checkbox" value="Eat food" />
-                                Eat Food
-                        </label>
-                        <label className="options">
-                            <input type = "checkbox" value="Watch movies" />
-                                Watch Movies
-                        </label>
-                        <label className = "options">
-                            <input type = "checkbox" value="Listen to music" />
-                                Listen to Music
-                        </label>
-                        <label className = "options">
-                            <input type = "checkbox" value="Time with family/friends" />
-                                Time with Family and Friends
-                        </label>
-                    </div>
-                </div>
-                <footer className="buttonFooter">
-                    <Button href="/dashboard">Exit Survey</Button>
-                    <Button type="submit">Submit</Button>
-                </footer>
-                </form>
-            </div>
+            <div></div>
         );
     }
+
+    const images = {
+        'awful' : Awful,
+        'sad' : Sad,
+        'alright' : Alright,
+        'good' : Good,
+        'awesome' : Awesome
+    }
+
+    const callMoodsApi = async () => {
+        try {
+            const token = await getTokenSilently();
+
+            const response = await fetch("/moods/all", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+
+            const responseData = await response.json();
+            setShowMoods(true);
+            setMoodsData(responseData);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const callFactorsApi = async () => {
+        try {
+            const token = await getTokenSilently();
+
+            const response = await fetch("/factors", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+
+            const responseData = await response.json();
+            setShowFactors(true);
+            setFactorsData(responseData);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const callEntriesApi = async () => {
+        try {
+            const token = await getTokenSilently();
+            const data = {
+                date: new Date(),
+                email: user.email,
+                mood: formMoodsData,
+                factors: formFactorsData
+            }
+            const response = await fetch("http://localhost:5000/entries", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const responseData = await response.json();
+            setEntriesData(responseData);
+            setShowEntries(true);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    if (user && !showMoods && !showFactors) {
+        callMoodsApi()
+        callFactorsApi()
+    }
+
+    if (showMoods) {
+        var moodsRadios = moodsData.map((d) =>
+            <Radio required onChange={onMoodChange}inline name="groupOptions" value={d.name}>
+                <img
+                    width={50}
+                    height={50}
+                    className="mr-3"
+                    src={images[d.name]}
+                    alt={d.name}
+                />
+            </Radio>
+        );
+    }
+    
+    if (showFactors) {
+        var factorsSelection = factorsData.map((d) =>
+            <option value={d}>{d}</option>
+        );
+    }
+
+    function handleSubmit(event) {
+        callEntriesApi()
+    }
+
+    function onMoodChange(event) {
+        setFormMoodsData(event.target.value)
+    }
+
+    function onFactorChange(event) {
+        var options = event.target.options;
+        var values = [];
+        for (var i = 0, l = options.length; i < l; i++) {
+            if (options[i].selected) {
+                values.push(options[i].value);
+            }
+        }
+        setFormFactorsData(values)
+    }
+
+    return (
+        <div style={ {marginTop: '10px', marginLeft: '50px', marginRight: '50px'} }>
+        {isAuthenticated && (
+        <>
+            <Form name="surveyForm" horizontal onSubmit={handleSubmit} action="/dashboard">
+            <FormGroup>
+                <ControlLabel>
+                    <h1><small>How are you feeling?</small></h1>
+                </ControlLabel>
+                <center>
+                {showMoods && (
+                <>
+                    {moodsRadios}
+                </>
+                )}
+                </center>
+            </FormGroup>
+            <FormGroup>
+                <ControlLabel>
+                    <h1><small>What made you feel that way?</small></h1>
+                </ControlLabel>
+                <center>
+                <FormControl  style={{height: '200px', width: '500px'}} onChange={onFactorChange} required componentClass="select" multiple>
+                    {showFactors && (
+                        <>
+                            {factorsSelection}
+                        </>
+                    )}
+                </FormControl>
+                </center>
+            </FormGroup>
+            <div style={{marginTop: '50px'}}>
+            <footer className="buttonFooter">
+                <Button href="/dashboard" bsStyle="danger">Home</Button>
+                <Button type="submit" bsStyle="success">Submit</Button>
+            </footer>
+            </div>
+            </Form>
+            </>
+        )}
+        </div>
+    );
 }
 
-export default survey;
+export default Survey;

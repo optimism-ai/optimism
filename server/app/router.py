@@ -315,8 +315,6 @@ def entries():
 
     Returns
     -------
-    Returns
-    -------
     json_data : JSON Object
         List of entries that are within the range. Each entry has the
         following format:
